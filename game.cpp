@@ -9,17 +9,19 @@ void start_game() {
 
     int my_score = 0, enemy_score = 0;
     for (int round = 0; round < 9; round++) {
-        std::cout << "\n第 " << (round + 1) << " 回合:\n";
-        int my_move = random_move(&my_team[round % 3]);
+        std::cout << "\n第 " << round + 1 << " 回合:\n";
+        int my_move = player_move(&my_team[round % 3]);
         int enemy_move = random_move(&enemy_team[round % 3]);
 
         if (my_move == enemy_move) {
             std::cout << "平局！\n";
+
         } else if ((my_move == 0 && enemy_move == 2) ||
                    (my_move == 1 && enemy_move == 0) ||
                    (my_move == 2 && enemy_move == 1)) {
             std::cout << "我方胜利！\n";
             my_score++;
+
                    } else {
                        std::cout << "敌方胜利！\n";
                        enemy_score++;
