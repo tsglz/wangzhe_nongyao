@@ -65,15 +65,15 @@ int player_move(Hero *hero)
     int move;
     printf("你现在的剪刀:%d 石头:%d 布:%d\n", hero->scissors, hero->rock, hero->paper);
     printf("请选择你的动作：0=剪刀, 1=石头, 2=布");
-    scanf("%d", &move); // 用户输入选择的动作
-    do
+    scanf("%d", &move);                          // 用户输入选择的动作
+    while ((move == 0 && hero->scissors == 0) || // 如果选择剪刀，但没有剪刀可用
+           (move == 1 && hero->rock == 0) ||     // 如果选择石头，但没有石头可用
+           (move == 2 && hero->paper == 0))      // 如果选择布，但没有布可用
     {
         printf("你没有%s，请重新选择: ",
                (move == 0 ? "剪刀" : (move == 1 ? "石头" : "布")));
-        scanf("%d", &move);                        // 用户输入选择的动作
-    } while ((move == 0 && hero->scissors == 0) || // 如果选择剪刀，但没有剪刀可用
-             (move == 1 && hero->rock == 0) ||     // 如果选择石头，但没有石头可用
-             (move == 2 && hero->paper == 0)); // 如果选择布，但没有布可用
+        scanf("%d", &move);
+    }
 
     // 减少相应动作的数量
     if (move == 0)

@@ -7,7 +7,8 @@ int login() {
     setlocale(LC_CTYPE, ""); // 设置区域，以支持宽字符
     wchar_t username[50], password[50], stored_user[50], stored_pass[50];
     FILE *fp = fopen("users.txt", "r+");
-    if (!fp) fp = fopen("users.txt", "w+");
+    if (!fp)
+        fp = fopen("users.txt", "w+");
 
     printf("请输入用户名: ");
     scanf("%ls", username);
