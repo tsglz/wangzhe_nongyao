@@ -5,7 +5,7 @@
             "name": "Debug Multi-File Project",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/wangzhe_nongyao.exe",
+            "program": "F:\\vscode_repo\\c_cpp\\wangzhe_nongyao\\wangzhe_nongyao.exe",
             "args": [],  // 如果需要传递命令行参数，可以在这里添加
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
