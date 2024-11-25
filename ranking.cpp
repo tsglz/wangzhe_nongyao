@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <iostream>
 
 void save_game_result(int win) {
     FILE *fp = fopen("ranking.txt", "a");
