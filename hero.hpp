@@ -11,5 +11,6 @@ typedef struct {
 void select_heroes(Hero team[3]);
 void random_heroes(Hero team[3]);
 int random_move(Hero *hero);
+int player_move(Hero *hero, Hero *enemy);
 
 #endif // HERO_H

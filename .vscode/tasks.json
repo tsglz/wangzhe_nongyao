@@ -6,11 +6,11 @@
             "command": "F:\\x86_64-8.1.0-release-win32-seh-rt_v6-rev0\\mingw64\\bin\\gcc.exe",
             "args": [
                 "-g",
-                "main.c",
-                "user.c",
-                "game.c",
-                "ranking.c",
-                "hero.c",
+                "main.cpp",
+                "user.cpp",
+                "game.cpp",
+                "ranking.cpp",
+                "hero.cpp",
                 "-o",
                 "wangzhe_nongyao.exe"
             ],
