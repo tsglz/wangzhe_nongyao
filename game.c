@@ -12,7 +12,7 @@ void start_game() {
     int my_score = 0, enemy_score = 0;
     for (int round = 0; round < 9; round++) {
         printf("\n第 %d 回合:\n", round + 1);
-        int my_move = random_move(&my_team[round % 3]);
+        int my_move = player_move(&my_team[round % 3]);
         int enemy_move = random_move(&enemy_team[round % 3]);
 
         if (my_move == enemy_move) {
@@ -23,7 +23,7 @@ void start_game() {
                    (my_move == 2 && enemy_move == 1)) {
             printf("我方胜利！\n");
             my_score++;
-            
+
         } else {
             printf("敌方胜利！\n");
             enemy_score++;
