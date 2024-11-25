@@ -17,11 +17,13 @@ void start_game() {
 
         if (my_move == enemy_move) {
             printf("平局！\n");
+
         } else if ((my_move == 0 && enemy_move == 2) ||
                    (my_move == 1 && enemy_move == 0) ||
                    (my_move == 2 && enemy_move == 1)) {
             printf("我方胜利！\n");
             my_score++;
+            
         } else {
             printf("敌方胜利！\n");
             enemy_score++;
