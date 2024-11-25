@@ -1,2 +1,0 @@
-vscode 下的编译命令：gcc -g main.c user.c game.c ranking.c hero.c -o wangzhe_nongyao.exe
-运行：.\wangzhe_nongyao.exe
