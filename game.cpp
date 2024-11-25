@@ -1,40 +1,35 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include "hero.hpp"
 #include "ranking.hpp"
 
-void start_game()
-{
+#include <format>
+
+void start_game() {
     Hero my_team[3], enemy_team[3];
     select_heroes(my_team);
     random_heroes(enemy_team);
 
     int my_score = 0, enemy_score = 0;
-    for (int round = 0; round < 9; round++)
-    {
-        printf("\nï¿½ï¿½ %d ï¿½Øºï¿½:\n", round + 1);
+    for (int round = 0; round < 9; ++round) {
+        std::print("\nµÚ {} »ØºÏ:\n", round + 1);
         int my_move = player_move(&my_team[round % 3], &enemy_team[round % 3]);
         int enemy_move = random_move(&enemy_team[round % 3]);
 
-        if (my_move == enemy_move)
-        {
-            printf("Æ½ï¿½Ö£ï¿½\n");
-        }
-        else if ((my_move == 0 && enemy_move == 2) ||
-                 (my_move == 1 && enemy_move == 0) ||
-                 (my_move == 2 && enemy_move == 1))
-        {
-            printf("ï¿½Ò·ï¿½Ê¤ï¿½ï¿½ï¿½ï¿½\n");
-            my_score++;
-        }
-        else
-        {
-            printf("ï¿½Ð·ï¿½Ê¤ï¿½ï¿½ï¿½ï¿½\n");
-            enemy_score++;
-        }
+        if (my_move == enemy_move) {
+            std::print("Æ½¾Ö£¡\n");
+        } else if ((my_move == 0 && enemy_move == 2) ||
+                   (my_move == 1 && enemy_move == 0) ||
+                   (my_move == 2 && enemy_move == 1)) {
+            std::print("ÎÒ·½Ê¤Àû£¡\n");
+            ++my_score;
+                   } else {
+                       std::print("µÐ·½Ê¤Àû£¡\n");
+                       ++enemy_score;
+                   }
     }
 
-    printf("\nï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½Ã·ï¿½: %d, ï¿½Ð·ï¿½ï¿½Ã·ï¿½: %d\n", my_score, enemy_score);
+    std::print("\nÓÎÏ·½áÊø£¬ÎÒ·½µÃ·Ö: {}, µÐ·½µÃ·Ö: {}\n", my_score, enemy_score);
     save_game_result(my_score > enemy_score);
 }
