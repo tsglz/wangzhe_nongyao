@@ -7,17 +7,17 @@ void save_game_result(int win) {
 }
 
 void show_ranking() {
-    printf("\n=== 排行榜 ===\n");
+    std::print("\n=== 排行榜 ===\n");
     FILE *fp = fopen("ranking.txt", "r");
     if (!fp) {
-        printf("暂无记录。\n");
+        std::print("暂无记录。\n");
         return;
     }
 
     char player[50];
     int win;
     while (fscanf(fp, "%s %d", player, &win) != EOF) {
-        printf("%s: %d 胜\n", player, win);
+        std::print("{}: {} 胜\n", player, win);
     }
     fclose(fp);
 }

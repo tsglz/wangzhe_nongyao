@@ -1,6 +1,0 @@
-tsglz 123
-tsg 123
-ts 12
-e e
-t 123
-w w

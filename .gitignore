@@ -1,3 +1,6 @@
 .DS_Store
 .idea
 cmake-build-debug
+users.txt
+ranking.txt
+*.exe
