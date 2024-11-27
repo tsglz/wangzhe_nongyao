@@ -3,7 +3,7 @@
 #include <time.h>
 #include "hero.hpp"
 #include "ranking.hpp"
-#include "time_check.hpp"
+//#include "time_check.hpp"
 
 void start_game()
 {
@@ -17,6 +17,7 @@ void start_game()
         printf("\nµÚ %d »ØºÏ:\n", round + 1);
 
         int my_move = player_move(&my_team[round % 3], &enemy_team[round % 3]);
+        
         int enemy_move = random_move(&enemy_team[round % 3]);
 
         if (my_move == enemy_move)

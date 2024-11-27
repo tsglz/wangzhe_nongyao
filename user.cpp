@@ -15,9 +15,9 @@ int login() {
         outfile.close();
     }
 
-    std::print("请输入用户名: ");
+    printf("请输入用户名: ");
     std::cin >> username;
-    std::print("请输入密码: ");
+    printf("请输入密码: ");
     std::cin >> password;
 
     bool found = false;
@@ -28,11 +28,11 @@ int login() {
         if (username == stored_user) {
             found = true;
             if (password == stored_pass) {
-                std::print("登录成功！\n");
+                printf("登录成功！\n");
                 infile.close();
                 return 1; // Login successful
             } else {
-                std::print("密码错误！\n");
+                printf("密码错误！\n");
                 infile.close();
                 return 0; // Incorrect password
             }
@@ -44,7 +44,7 @@ int login() {
         std::ofstream outfile("users.txt", std::ios::app);
         if (outfile) {
             outfile << username << ' ' << password << '\n';
-            std::print("注册成功！\n");
+            printf("注册成功！\n");
         } else {
             std::cerr << "无法打开用户文件进行写入。\n";
             return -1; // Return an error code
