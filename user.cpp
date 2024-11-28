@@ -1,85 +1,69 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <cstring>
+#include "user.hpp"
 
-// µÇÂ¼º¯Êı£¬½ÓÊÕÓÃ»§ÃûÖ¸Õë
-int login(char *name)
-{
-    std::string username, password;       // ÓÃ»§ÊäÈëµÄÓÃ»§ÃûºÍÃÜÂë
-    std::string stored_user, stored_pass; // ´ÓÎÄ¼şÖĞ¶ÁÈ¡µÄÓÃ»§ÃûºÍÃÜÂë
+// ç™»å½•å‡½æ•°ï¼Œæ¥æ”¶ç”¨æˆ·åæŒ‡é’ˆ
+int login(char *name) {
+  std::string username, password;       // ç”¨æˆ·è¾“å…¥çš„ç”¨æˆ·åå’Œå¯†ç 
+  std::string stored_user, stored_pass; // ä»æ–‡ä»¶ä¸­è¯»å–çš„ç”¨æˆ·åå’Œå¯†ç 
 
-    std::ifstream infile("users.txt"); // ´ò¿ªÓÃ»§ÎÄ¼ş½øĞĞ¶ÁÈ¡
-    // ¼ì²éÎÄ¼şÊÇ·ñ´æÔÚ
-    if (!infile)
-    {
-        // Èç¹ûÎÄ¼ş²»´æÔÚ£¬Ôò´´½¨ÎÄ¼ş
-        std::ofstream outfile("users.txt");
-        if (!outfile)
-        {
-            std::cerr << "ÎŞ·¨´´½¨ÓÃ»§ÎÄ¼ş¡£\n"; // ÎÄ¼ş´´½¨Ê§°ÜµÄÌáÊ¾
-            return -1;                           // ·µ»Ø´íÎó´úÂë
-        }
-        outfile.close(); // ¹Ø±ÕÊä³öÎÄ¼ş
+  std::ifstream infile("users.txt"); // æ‰“å¼€ç”¨æˆ·æ–‡ä»¶è¿›è¡Œè¯»å–
+  // æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+  if (!infile) {
+    // å¦‚æœæ–‡ä»¶ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»ºæ–‡ä»¶
+    std::ofstream outfile("users.txt");
+    if (!outfile) {
+      std::cerr << "æ— æ³•åˆ›å»ºç”¨æˆ·æ–‡ä»¶ã€‚\n"; // æ–‡ä»¶åˆ›å»ºå¤±è´¥çš„æç¤º
+      return -1;                           // è¿”å›é”™è¯¯ä»£ç 
     }
+    outfile.close(); // å…³é—­è¾“å‡ºæ–‡ä»¶
+  }
 
-    // ¶ÁÈ¡ÓÃ»§ÊäÈëµÄÓÃ»§Ãû
-    printf("ÇëÊäÈëÓÃ»§Ãû: ");
-    std::cin >> username;
-    strcpy(name, username.c_str()); // ½«ÊäÈëµÄÓÃ»§Ãû¸´ÖÆµ½´«ÈëµÄ name Ö¸Õë
-    // ¶ÁÈ¡ÓÃ»§ÊäÈëµÄÃÜÂë
-    printf("ÇëÊäÈëÃÜÂë: ");
-    std::cin >> password;
+  // è¯»å–ç”¨æˆ·è¾“å…¥çš„ç”¨æˆ·å
+  printf("è¯·è¾“å…¥ç”¨æˆ·å: ");
+  std::cin >> username;
+  strcpy(name, username.c_str()); // å°†è¾“å…¥çš„ç”¨æˆ·åå¤åˆ¶åˆ°ä¼ å…¥çš„ name æŒ‡é’ˆ
+  // è¯»å–ç”¨æˆ·è¾“å…¥çš„å¯†ç 
+  printf("è¯·è¾“å…¥å¯†ç : ");
+  std::cin >> password;
 
-    bool found = false;             // ±ê¼ÇÊÇ·ñÕÒµ½ÓÃ»§Ãû
-    infile.clear();                 // Çå³ıÈÎºÎ´íÎó±êÖ¾
-    infile.seekg(0, std::ios::beg); // ½«ÎÄ¼şÖ¸ÕëÒÆ»ØÎÄ¼ş¿ªÍ·
+  bool found = false;             // æ ‡è®°æ˜¯å¦æ‰¾åˆ°ç”¨æˆ·å
+  infile.clear();                 // æ¸…é™¤ä»»ä½•é”™è¯¯æ ‡å¿—
+  infile.seekg(0, std::ios::beg); // å°†æ–‡ä»¶æŒ‡é’ˆç§»å›æ–‡ä»¶å¼€å¤´
 
-    // ´ÓÎÄ¼şÖĞÖğĞĞ¶ÁÈ¡ÓÃ»§ÃûºÍÃÜÂë
-    while (infile >> stored_user >> stored_pass)
-    {
-        if (username == stored_user)
-        {                 // Èç¹ûÕÒµ½Æ¥ÅäµÄÓÃ»§Ãû
-            found = true; // ½« found ±ê¼ÇÎª true
-            if (password == stored_pass)
-            {                           // ¼ì²éÃÜÂëÊÇ·ñÕıÈ·
-                printf("µÇÂ¼³É¹¦£¡\n"); // µÇÂ¼³É¹¦ÌáÊ¾
-                infile.close();         // ¹Ø±ÕÊäÈëÎÄ¼ş
-                return 1;               // ·µ»Ø³É¹¦×´Ì¬
-            }
-            else
-            {
-                while (password != stored_pass)
-                {
-                    printf("ÃÜÂë´íÎó£¡\n"); // ÃÜÂë²»ÕıÈ·ÌáÊ¾
-                    // ¶ÁÈ¡ÓÃ»§ÊäÈëµÄÃÜÂë
-                    printf("ÇëÖØĞÂÊäÈëÃÜÂë: ");
-                    std::cin >> password;
-                }
-                infile.close(); // ¹Ø±ÕÊäÈëÎÄ¼ş
-                return 1;       // ·µ»ØÃÜÂë´íÎó×´Ì¬
-            }
+  // ä»æ–‡ä»¶ä¸­é€è¡Œè¯»å–ç”¨æˆ·åå’Œå¯†ç 
+  while (infile >> stored_user >> stored_pass) {
+    if (username == stored_user) {   // å¦‚æœæ‰¾åˆ°åŒ¹é…çš„ç”¨æˆ·å
+      found = true;                  // å°† found æ ‡è®°ä¸º true
+      if (password == stored_pass) { // æ£€æŸ¥å¯†ç æ˜¯å¦æ­£ç¡®
+        printf("ç™»å½•æˆåŠŸï¼\n");      // ç™»å½•æˆåŠŸæç¤º
+        infile.close();              // å…³é—­è¾“å…¥æ–‡ä»¶
+        return 1;                    // è¿”å›æˆåŠŸçŠ¶æ€
+      } else {
+        while (password != stored_pass) {
+          printf("å¯†ç é”™è¯¯ï¼\n"); // å¯†ç ä¸æ­£ç¡®æç¤º
+          // è¯»å–ç”¨æˆ·è¾“å…¥çš„å¯†ç 
+          printf("è¯·é‡æ–°è¾“å…¥å¯†ç : ");
+          std::cin >> password;
         }
+        infile.close(); // å…³é—­è¾“å…¥æ–‡ä»¶
+        return 1;       // è¿”å›å¯†ç é”™è¯¯çŠ¶æ€
+      }
     }
-    infile.close(); // ¹Ø±ÕÊäÈëÎÄ¼ş
+  }
+  infile.close(); // å…³é—­è¾“å…¥æ–‡ä»¶
 
-    // Èç¹ûÎ´ÕÒµ½ÓÃ»§£¬Ôò½øĞĞ×¢²á
-    if (!found)
-    {
-        std::ofstream outfile("users.txt", std::ios::app); // ÒÔ×·¼ÓÄ£Ê½´ò¿ªÎÄ¼ş
-        if (outfile)
-        {
-            // ½«ĞÂ×¢²áµÄÓÃ»§ÃûºÍÃÜÂëĞ´ÈëÎÄ¼ş
-            outfile << username << ' ' << password << '\n';
-            printf("×¢²á³É¹¦£¡\n"); // ×¢²á³É¹¦ÌáÊ¾
-        }
-        else
-        {
-            std::cerr << "ÎŞ·¨´ò¿ªÓÃ»§ÎÄ¼ş½øĞĞĞ´Èë¡£\n"; // Ğ´ÈëÎÄ¼şÊ§°ÜÌáÊ¾
-            return -1;                                   // ·µ»Ø´íÎó´úÂë
-        }
-        outfile.close(); // ¹Ø±ÕÊä³öÎÄ¼ş
+  // å¦‚æœæœªæ‰¾åˆ°ç”¨æˆ·ï¼Œåˆ™è¿›è¡Œæ³¨å†Œ
+  if (!found) {
+    std::ofstream outfile("users.txt", std::ios::app); // ä»¥è¿½åŠ æ¨¡å¼æ‰“å¼€æ–‡ä»¶
+    if (outfile) {
+      // å°†æ–°æ³¨å†Œçš„ç”¨æˆ·åå’Œå¯†ç å†™å…¥æ–‡ä»¶
+      outfile << username << ' ' << password << '\n';
+      printf("æ³¨å†ŒæˆåŠŸï¼\n"); // æ³¨å†ŒæˆåŠŸæç¤º
+    } else {
+      std::cerr << "æ— æ³•æ‰“å¼€ç”¨æˆ·æ–‡ä»¶è¿›è¡Œå†™å…¥ã€‚\n"; // å†™å…¥æ–‡ä»¶å¤±è´¥æç¤º
+      return -1;                                   // è¿”å›é”™è¯¯ä»£ç 
     }
+    outfile.close(); // å…³é—­è¾“å‡ºæ–‡ä»¶
+  }
 
-    return 0; // ½áÊøº¯Êı£¬·µ»ØÒ»°ã×´Ì¬
-    }
+  return 0; // ç»“æŸå‡½æ•°ï¼Œè¿”å›ä¸€èˆ¬çŠ¶æ€
+}

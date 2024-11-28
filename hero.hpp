@@ -1,6 +1,12 @@
 #ifndef HERO_H
 #define HERO_H
 
+#include <iostream>
+#include <memory>
+#include <stdio.h>  // 引入标准输入输出库
+#include <stdlib.h> // 引入标准库，用于随机数生成
+#include <string>
+
 typedef struct {
     char name[20];
     int scissors;
