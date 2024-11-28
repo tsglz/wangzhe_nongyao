@@ -89,58 +89,19 @@ void random_heroes(Hero team[3])
 int player_move(Hero *hero, Hero *enemy)
 {
     int move;
-    bool input_valid = false;
 
     printf("敌方现在的剪刀:%d 石头:%d 布:%d\n", enemy->scissors, enemy->rock, enemy->paper);
     printf("你现在的剪刀:%d 石头:%d 布:%d\n", hero->scissors, hero->rock, hero->paper);
 
     std::cout << "请选择你的动作（0=剪刀, 1=石头, 2=布）：" << std::endl;
 
-    std::mutex input_mutex;
-    std::condition_variable cv;
-    Timer t([hero, &move, &input_valid, &cv]()
-            {
-                std::cout << "超时，自动执行随机移动！" << std::endl;
-                move = random_move(hero);
-                input_valid = true;
-                cv.notify_all(); // 通知所有线程超时已发生
-            });
+    std::cin >> move; // 获取玩家输入
 
-    t.AsyncWait(10000); // 这里可以放一个函数指针，用于处理超时
-
-    while (!input_valid)
+    // 校验输入是否有效
+    while (move != 0 && move != 1 && move != 2)
     {
-        std::thread input_thread([&t, &input_mutex, &cv, &move, &input_valid]()
-                                 {
-            std::lock_guard<std::mutex> lock(input_mutex);
-            if (!t.IsTimeoutTriggered()) { // 超时未发生时才接受输入
-                scanf("%d", &move); // 用户输入
-
-                // 校验输入是否有效
-                if (move == 0 || move == 1 || move == 2) {
-                    input_valid = true; // 输入有效
-                    t.Stop();           // 停止定时器
-                    cv.notify_all();    // 通知其他线程输入有效
-                } else {
-                    std::cout << "输入错误，请重新输入（0=剪刀, 1=石头, 2=布）: ";
-                }
-            } else {
-                input_valid = true; // 超时发生，退出循环
-                cv.notify_all();    // 通知其他线程超时
-            } });
-
-        input_thread.detach(); // 启动输入线程但不等待
-
-        // 等待输入完成或超时
-        std::unique_lock<std::mutex> lock(input_mutex);
-        cv.wait(lock, [&input_valid]()
-                { return input_valid; }); // 等待输入有效或超时
-    }
-
-    // 检查玩家是否有足够的物品进行该动作
-    if (t.IsTimeoutTriggered())
-    {
-        return move; // 超时返回随机选择的动作
+        std::cout << "输入错误，请重新输入（0=剪刀, 1=石头, 2=布）: ";
+        std::cin >> move; // 获取玩家输入
     }
 
     while ((move == 0 && hero->scissors == 0) ||
@@ -149,21 +110,7 @@ int player_move(Hero *hero, Hero *enemy)
     {
         printf("你没有%s，请重新选择: ",
                (move == 0 ? "剪刀" : (move == 1 ? "石头" : "布")));
-
-        std::thread input_thread([&t, &input_mutex, &cv, &move]()
-                                 {
-                                     std::lock_guard<std::mutex> lock(input_mutex);
-                                     scanf("%d", &move); // 重新输入选择的动作
-                                     t.Stop();           // 输入完成后停止定时器
-                                     cv.notify_all();    // 通知其他线程输入已更新
-                                 });
-
-        input_thread.detach(); // 启动输入线程但不等待
-
-        // 等待输入完成或超时
-        std::unique_lock<std::mutex> lock(input_mutex);
-        cv.wait(lock, [&input_valid]()
-                { return input_valid; }); // 继续等待
+        std::cin >> move; // 获取玩家重新输入
     }
 
     // 减少相应动作的数量
@@ -189,7 +136,7 @@ int random_move(Hero *hero)
     int move; // 移动方式：0=剪刀, 1=石头, 2=布
     do
     {
-        srand(time(NULL)); // 初始化随机数种子
+        srand(time(NULL));                         // 初始化随机数种子
         move = rand() % 3;                         // 随机选择一个动作
     } while ((move == 0 && hero->scissors == 0) || // 如果选择剪刀，但没有剪刀可用
              (move == 1 && hero->rock == 0) ||     // 如果选择石头，但没有石头可用

@@ -3,9 +3,9 @@
 #include <time.h>
 #include "hero.hpp"
 #include "ranking.hpp"
-//#include "time_check.hpp"
+// #include "time_check.hpp"
 
-void start_game()
+void start_game(char *name)
 {
     Hero my_team[3], enemy_team[3];
     select_heroes(my_team);
@@ -17,7 +17,7 @@ void start_game()
         printf("\n第 %d 回合:\n", round + 1);
 
         int my_move = player_move(&my_team[round % 3], &enemy_team[round % 3]);
-        
+
         int enemy_move = random_move(&enemy_team[round % 3]);
 
         if (my_move == enemy_move)
@@ -39,5 +39,5 @@ void start_game()
     }
 
     printf("\n游戏结束，我方得分: %d, 敌方得分: %d\n", my_score, enemy_score);
-    save_game_result(my_score > enemy_score);
+    save_game_result(my_score > enemy_score, name);
 }

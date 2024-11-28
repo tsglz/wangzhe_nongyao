@@ -3,15 +3,21 @@
 #include "game.hpp"
 #include "ranking.hpp"
 
-int main() {
-    if (!login()) {
+int main()
+{
+    char *name = new char[20];
+    if (!login(name))
+    {
         printf("注册成功，欢迎进入游戏！\n");
-    } else {
+    }
+    else
+    {
         printf("登录成功，欢迎回来！\n");
     }
 
     int choice;
-    while (1) {
+    while (1)
+    {
         printf("\n=== 王者农药 ===\n");
         printf("1. 开始游戏\n");
         printf("2. 查看排行榜\n");
@@ -19,18 +25,19 @@ int main() {
         printf("请选择: ");
         std::cin >> choice;
 
-        switch (choice) {
-            case 1:
-                start_game();
+        switch (choice)
+        {
+        case 1:
+            start_game(name);
             break;
-            case 2:
-                show_ranking();
+        case 2:
+            show_ranking();
             break;
-            case 3:
-                printf("感谢游戏，再见！\n");
+        case 3:
+            printf("感谢游戏，再见！\n");
             return 0;
-            default:
-                printf("输入无效，请重新选择。\n");
+        default:
+            printf("输入无效，请重新选择。\n");
         }
     }
     return 0;
