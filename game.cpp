@@ -14,7 +14,7 @@ void start_game(char *name)
     int my_score = 0, enemy_score = 0;
     for (int round = 0; round < 9; round++)
     {
-        printf("\nµÚ %d »ØºÏ:\n", round + 1);
+        printf("\nç¬¬ {} å›žåˆï¼š\n", round + 1);
 
         int my_move = player_move(&my_team[round % 3], &enemy_team[round % 3]);
 
@@ -22,22 +22,22 @@ void start_game(char *name)
 
         if (my_move == enemy_move)
         {
-            printf("Æ½¾Ö£¡\n");
+            printf("å¹³å±€ï¼\n");
         }
         else if ((my_move == 0 && enemy_move == 2) ||
                  (my_move == 1 && enemy_move == 0) ||
                  (my_move == 2 && enemy_move == 1))
         {
-            printf("ÎÒ·½Ê¤Àû£¡\n");
+            printf("æˆ‘æ–¹èƒœåˆ©ï¼\n");
             my_score++;
         }
         else
         {
-            printf("µÐ·½Ê¤Àû£¡\n");
+            printf("æ•Œæ–¹èƒœåˆ©\n");
             enemy_score++;
         }
     }
 
-    printf("\nÓÎÏ·½áÊø£¬ÎÒ·½µÃ·Ö: %d, µÐ·½µÃ·Ö: %d\n", my_score, enemy_score);
+    printf("\næ¸¸æˆç»“æŸï¼Œæˆ‘æ–¹åˆ†å¾—: %dï¼Œæ•Œæ–¹å¾—åˆ†: %d\n", my_score, enemy_score);
     save_game_result(my_score > enemy_score, name);
 }

@@ -1,85 +1,83 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
+#include "ranking.hpp"
 
 #define MAX_PLAYERS 100
 
-// Íæ¼Ò½á¹¹Ìå
+// ç©å®¶ç»“æ„ä½“
 typedef struct {
-    char name[50];
-    int wins;
+  char name[50];
+  int wins;
 } Player;
 
-// ±È½Ïº¯Êı£¬ÓÃÓÚÅÅĞò
+// æ¯”è¾ƒå‡½æ•°ï¼Œç”¨äºæ’åº
 int compare(const void *a, const void *b) {
-    Player *playerA = (Player *)a;
-    Player *playerB = (Player *)b;
-    return playerB->wins - playerA->wins; // ½µĞòÅÅĞò
+  Player *playerA = (Player *)a;
+  Player *playerB = (Player *)b;
+  return playerB->wins - playerA->wins; // é™åºæ’åº
 }
 
-// ±£´æÓÎÏ·½á¹û
+// ä¿å­˜æ¸¸æˆç»“æœ
 void save_game_result(int win, const char *name) {
-    FILE *fp = fopen("ranking.txt", "r+"); // ÒÔ¶ÁĞ´Ä£Ê½´ò¿ªÎÄ¼ş
+  FILE *fp = fopen("ranking.txt", "r+"); // ä»¥è¯»å†™æ¨¡å¼æ‰“å¼€æ–‡ä»¶
+  if (!fp) {
+    // å¦‚æœæ–‡ä»¶ä¸å­˜åœ¨ï¼Œåˆ›å»ºæ–°æ–‡ä»¶
+    fp = fopen("ranking.txt", "w+");
     if (!fp) {
-        // Èç¹ûÎÄ¼ş²»´æÔÚ£¬´´½¨ĞÂÎÄ¼ş
-        fp = fopen("ranking.txt", "w+");
-        if (!fp) {
-            printf("ÎŞ·¨´´½¨ÎÄ¼ş½øĞĞĞ´Èë¡£\n");
-            return;
-        }
+      printf("æ— æ³•åˆ›å»ºæ–‡ä»¶è¿›è¡Œå†™å…¥ã€‚\n");
+      return;
     }
+  }
 
-    Player players[MAX_PLAYERS];
-    int playerCount = 0;
-    bool found = false;
+  Player players[MAX_PLAYERS];
+  int playerCount = 0;
+  bool found = false;
 
-    // ¶ÁÈ¡ÏÖÓĞÍæ¼ÒĞÅÏ¢
-    while (fscanf(fp, "%s %d", players[playerCount].name, &players[playerCount].wins) != EOF) {
-        playerCount++;
+  // è¯»å–ç°æœ‰ç©å®¶ä¿¡æ¯
+  while (fscanf(fp, "%s %d", players[playerCount].name,
+                &players[playerCount].wins) != EOF) {
+    playerCount++;
+  }
+
+  // æŸ¥æ‰¾æ˜¯å¦å·²æœ‰è¯¥ç©å®¶
+  for (int i = 0; i < playerCount; i++) {
+    if (strcmp(players[i].name, name) == 0) {
+      players[i].wins += win; // æ›´æ–°èƒœåˆ©æ¬¡æ•°
+      found = true;
+      break;
     }
+  }
 
-    // ²éÕÒÊÇ·ñÒÑÓĞ¸ÃÍæ¼Ò
-    for (int i = 0; i < playerCount; i++) {
-        if (strcmp(players[i].name, name) == 0) {
-            players[i].wins += win; // ¸üĞÂÊ¤Àû´ÎÊı
-            found = true;
-            break;
-        }
-    }
+  // å¦‚æœæ²¡æœ‰æ‰¾åˆ°è¯¥ç©å®¶ï¼Œæ·»åŠ æ–°è®°å½•
+  if (!found && playerCount < MAX_PLAYERS) {
+    strncpy(players[playerCount].name, name, sizeof(players[playerCount].name));
+    players[playerCount].wins = win;
+    playerCount++;
+  }
 
-    // Èç¹ûÃ»ÓĞÕÒµ½¸ÃÍæ¼Ò£¬Ìí¼ÓĞÂ¼ÇÂ¼
-    if (!found && playerCount < MAX_PLAYERS) {
-        strncpy(players[playerCount].name, name, sizeof(players[playerCount].name));
-        players[playerCount].wins = win;
-        playerCount++;
-    }
+  // æ’åºç©å®¶åˆ—è¡¨
+  qsort(players, playerCount, sizeof(Player), compare);
 
-    // ÅÅĞòÍæ¼ÒÁĞ±í
-    qsort(players, playerCount, sizeof(Player), compare);
+  // é‡å†™æ–‡ä»¶å†…å®¹
+  freopen("ranking.txt", "w", fp); // æ¸…ç©ºæ–‡ä»¶å¹¶é‡æ–°å†™å…¥
+  for (int i = 0; i < playerCount; i++) {
+    fprintf(fp, "%s %d\n", players[i].name, players[i].wins);
+  }
 
-    // ÖØĞ´ÎÄ¼şÄÚÈİ
-    freopen("ranking.txt", "w", fp); // Çå¿ÕÎÄ¼ş²¢ÖØĞÂĞ´Èë
-    for (int i = 0; i < playerCount; i++) {
-        fprintf(fp, "%s %d\n", players[i].name, players[i].wins);
-    }
-
-    fclose(fp); // ¹Ø±ÕÎÄ¼ş
+  fclose(fp); // å…³é—­æ–‡ä»¶
 }
 
-// ÏÔÊ¾ÅÅĞĞ°ñ
+// æ˜¾ç¤ºæ’è¡Œæ¦œ
 void show_ranking() {
-    printf("\n=== ÅÅĞĞ°ñ ===\n");
-    FILE *fp = fopen("ranking.txt", "r");
-    if (!fp) {
-        printf("ÔİÎŞ¼ÇÂ¼¡£\n");
-        return;
-    }
+  printf("\n=== æ’è¡Œæ¦œ ===\n");
+  FILE *fp = fopen("ranking.txt", "r");
+  if (!fp) {
+    printf("æš‚æ— è®°å½•ã€‚\n");
+    return;
+  }
 
-    char player[50];
-    int win;
-    while (fscanf(fp, "%s %d", player, &win) != EOF) {
-        printf("%s: %d Ê¤\n", player, win);
-    }
-    fclose(fp);
+  char player[50];
+  int win;
+  while (fscanf(fp, "%s %d", player, &win) != EOF) {
+    printf("%s: %d èƒœ\n", player, win);
+  }
+  fclose(fp);
 }

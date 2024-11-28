@@ -1,154 +1,130 @@
-#include <iostream>
-#include <stdio.h>  // ÒýÈë±ê×¼ÊäÈëÊä³ö¿â
-#include <stdlib.h> // ÒýÈë±ê×¼¿â£¬ÓÃÓÚËæ»úÊýÉú³É
-#include "hero.hpp" // ÒýÈë×Ô¶¨ÒåµÄÍ·ÎÄ¼þ£¬°üº¬Hero½á¹¹ÌåµÄ¶¨Òå
-#include <string>
-#include <memory>
-#include "time_check.hpp"
+#include "hero.hpp" // å¼•å…¥è‡ªå®šä¹‰çš„å¤´æ–‡ä»¶ï¼ŒåŒ…å«Heroç»“æž„ä½“çš„å®šä¹‰
 
 #define HERO_COUNT 15
 
-// ¶¨ÒåÒ»¸öÓ¢ÐÛÁÐ±í£¬°üº¬¶à¸öÓ¢ÐÛµÄÃû³Æ¼°Æä¼ôµ¶¡¢Ê¯Í·¡¢²¼µÄÊýÁ¿
+// å®šä¹‰ä¸€ä¸ªè‹±é›„åˆ—è¡¨ï¼ŒåŒ…å«å¤šä¸ªè‹±é›„çš„åç§°åŠå…¶å‰ªåˆ€ã€çŸ³å¤´ã€å¸ƒçš„æ•°é‡
 Hero hero_list[] = {
-    {"ÕÔÔÆ", 2, 2, 2}, {"¹¬±¾Îä²Ø", 4, 1, 1}, {"¿­", 2, 3, 1}, {"°×Æð", 5, 0, 1}, {"º«ÐÅ", 1, 2, 3}, {"Öî¸ðÁÁ", 2, 1, 3}, {"Áõ°î", 2, 0, 4}, {"ºóôà", 0, 3, 3}, {"ÍõÕÑ¾ý", 1, 1, 4}, {"æ§¼º", 4, 1, 1}, {"°²ç÷À­", 1, 4, 1}, {"õõ²õ", 3, 2, 1}, {"Â¶ÄÈ", 1, 3, 2}, {"²»Öª»ðÎè", 4, 2, 0}, {"²ÌÎÄ¼§", 0, 5, 1}};
+    {"èµµäº‘", 2, 2, 2}, {"å®«æœ¬æ­¦è—", 4, 1, 1}, {"å‡¯", 2, 3, 1},
+    {"ç™½èµ·", 5, 0, 1}, {"éŸ©ä¿¡", 1, 2, 3},     {"è¯¸è‘›äº®", 2, 1, 3},
+    {"åˆ˜é‚¦", 2, 0, 4}, {"åŽç¾¿", 0, 3, 3},     {"çŽ‹æ˜­å›", 1, 1, 4},
+    {"å¦²å·±", 4, 1, 1}, {"å®‰çªæ‹‰", 1, 4, 1},   {"è²‚è‰", 3, 2, 1},
+    {"éœ²å¨œ", 1, 3, 2}, {"ä¸çŸ¥ç«èˆž", 4, 2, 0}, {"è”¡æ–‡å§¬", 0, 5, 1}};
 
-// Ñ¡ÔñÓ¢ÐÛµÄº¯Êý£¬½ÓÊÕÒ»¸öÓ¢ÐÛ¶ÓÁÐÊý×é×÷Îª²ÎÊý
-void select_heroes(Hero team[3])
-{
-    int chosen[HERO_COUNT] = {0}; // ÓÃÓÚ¼ÇÂ¼ÒÑ¾­Ñ¡ÔñµÄÓ¢ÐÛ±àºÅ
-    printf("ÇëÑ¡Ôñ3Î»Ó¢ÐÛ£¨ÓÃ±àºÅÑ¡Ôñ£©:\n");
-    // Êä³ö¿ÉÑ¡Ó¢ÐÛµÄÁÐ±í
-    for (int i = 0; i < 15; i++)
-    {
-        printf("%d. %s (¼ôµ¶:%d Ê¯Í·:%d ²¼:%d)\n", i + 1, hero_list[i].name,
-               hero_list[i].scissors, hero_list[i].rock, hero_list[i].paper);
+// é€‰æ‹©è‹±é›„çš„å‡½æ•°ï¼ŒæŽ¥æ”¶ä¸€ä¸ªè‹±é›„é˜Ÿåˆ—æ•°ç»„ä½œä¸ºå‚æ•°
+void select_heroes(Hero team[3]) {
+  int chosen[HERO_COUNT] = {0}; // ç”¨äºŽè®°å½•å·²ç»é€‰æ‹©çš„è‹±é›„ç¼–å·
+  printf("è¯·é€‰æ‹©3ä½è‹±é›„ï¼ˆç”¨ç¼–å·é€‰æ‹©ï¼‰:\n");
+  // è¾“å‡ºå¯é€‰è‹±é›„çš„åˆ—è¡¨
+  for (int i = 0; i < 15; i++) {
+    printf("%d. %s (å‰ªåˆ€:%d çŸ³å¤´:%d å¸ƒ:%d)\n", i + 1, hero_list[i].name,
+           hero_list[i].scissors, hero_list[i].rock, hero_list[i].paper);
+  }
+
+  // å¾ªçŽ¯æŽ¥æ”¶ç”¨æˆ·é€‰æ‹©çš„è‹±é›„ç¼–å·
+  for (int i = 0; i < 3; i++) {
+    int choice;
+    int valid_choice = 0;
+
+    while (!valid_choice) { // åªè¦è¾“å…¥æ— æ•ˆå°±ç»§ç»­å¾ªçŽ¯
+      printf("é€‰æ‹©è‹±é›„ %d (1-%d): ", i + 1, HERO_COUNT);
+      scanf("%d", &choice); // ç”¨æˆ·è¾“å…¥é€‰æ‹©çš„ç¼–å·
+
+      // æ£€æŸ¥è¾“å…¥çš„é€‰æ‹©
+      if (choice < 1 || choice > HERO_COUNT) {
+        printf("æ— æ•ˆé€‰æ‹©ï¼Œè¯·é‡æ–°é€‰æ‹©ã€‚\n");
+      } else if (chosen[choice - 1]) {
+        printf("è¯¥è‹±é›„å·²è¢«é€‰æ‹©ï¼Œè¯·é€‰æ‹©å…¶ä»–è‹±é›„ã€‚\n");
+      } else {
+        // ä¸€åˆ‡æœ‰æ•ˆï¼Œæ›´æ–°é˜Ÿä¼ä¸­çš„è‹±é›„
+        team[i] = hero_list[choice - 1]; // æ›´æ–°é˜Ÿä¼ä¸­çš„è‹±é›„
+        chosen[choice - 1] = 1;          // æ ‡è®°è¯¥è‹±é›„ä¸ºå·²é€‰æ‹©
+        valid_choice = 1;                // æ ‡è®°ä¸ºæœ‰æ•ˆé€‰æ‹©ï¼Œè·³å‡ºå¾ªçŽ¯
+      }
     }
+  }
 
-    // Ñ­»·½ÓÊÕÓÃ»§Ñ¡ÔñµÄÓ¢ÐÛ±àºÅ
-    for (int i = 0; i < 3; i++)
-    {
-        int choice;
-        int valid_choice = 0;
-
-        while (!valid_choice)
-        { // Ö»ÒªÊäÈëÎÞÐ§¾Í¼ÌÐøÑ­»·
-            printf("Ñ¡ÔñÓ¢ÐÛ %d (1-%d): ", i + 1, HERO_COUNT);
-            scanf("%d", &choice); // ÓÃ»§ÊäÈëÑ¡ÔñµÄ±àºÅ
-
-            // ¼ì²éÊäÈëµÄÑ¡Ôñ
-            if (choice < 1 || choice > HERO_COUNT)
-            {
-                printf("ÎÞÐ§Ñ¡Ôñ£¬ÇëÖØÐÂÑ¡Ôñ¡£\n");
-            }
-            else if (chosen[choice - 1])
-            {
-                printf("¸ÃÓ¢ÐÛÒÑ±»Ñ¡Ôñ£¬ÇëÑ¡ÔñÆäËûÓ¢ÐÛ¡£\n");
-            }
-            else
-            {
-                // Ò»ÇÐÓÐÐ§£¬¸üÐÂ¶ÓÎéÖÐµÄÓ¢ÐÛ
-                team[i] = hero_list[choice - 1]; // ¸üÐÂ¶ÓÎéÖÐµÄÓ¢ÐÛ
-                chosen[choice - 1] = 1;          // ±ê¼Ç¸ÃÓ¢ÐÛÎªÒÑÑ¡Ôñ
-                valid_choice = 1;                // ±ê¼ÇÎªÓÐÐ§Ñ¡Ôñ£¬Ìø³öÑ­»·
-            }
-        }
-    }
-
-    // Êä³öÑ¡ÔñµÄÓ¢ÐÛ
-    printf("ÄãÑ¡ÔñµÄÓ¢ÐÛÊÇ:");
-    for (int i = 0; i < 3; i++)
-    {
-        printf("%s ", team[i]);
-    }
+  // è¾“å‡ºé€‰æ‹©çš„è‹±é›„
+  printf("ä½ é€‰æ‹©çš„è‹±é›„æ˜¯:");
+  for (int i = 0; i < 3; i++) {
+    printf("%s ", team[i]);
+  }
 }
 
-// Ëæ»úÑ¡ÔñÓ¢ÐÛµÄº¯Êý
-void random_heroes(Hero team[3])
-{
-    srand(time(NULL));          // ³õÊ¼»¯Ëæ»úÊýÖÖ×Ó
-    int chosen_index[15] = {0}; // ÓÃÓÚ¼ÇÂ¼ÒÑ¾­Ñ¡ÔñµÄÓ¢ÐÛ±àºÅ
-    for (int i = 0; i < 3; i++)
+// éšæœºé€‰æ‹©è‹±é›„çš„å‡½æ•°
+void random_heroes(Hero team[3]) {
+  srand(time(NULL));          // åˆå§‹åŒ–éšæœºæ•°ç§å­
+  int chosen_index[15] = {0}; // ç”¨äºŽè®°å½•å·²ç»é€‰æ‹©çš„è‹±é›„ç¼–å·
+  for (int i = 0; i < 3; i++) {
+    int index = rand() % 15;         // æ¯æ¬¡ä»Ž0åˆ°14éšæœºå–ä¸€ä¸ªè‹±é›„
+    while (chosen_index[index] == 1) // å¦‚æžœè¯¥è‹±é›„å·²ç»è¢«é€‰æ‹©ï¼Œåˆ™é‡æ–°éšæœº
     {
-        int index = rand() % 15;         // Ã¿´Î´Ó0µ½14Ëæ»úÈ¡Ò»¸öÓ¢ÐÛ
-        while (chosen_index[index] == 1) // Èç¹û¸ÃÓ¢ÐÛÒÑ¾­±»Ñ¡Ôñ£¬ÔòÖØÐÂËæ»ú
-        {
-            index = rand() % 15;
-        }
-        team[i] = hero_list[index]; // ¸üÐÂ¶ÓÎéÖÐµÄÓ¢ÐÛ
-        chosen_index[index] = 1;    // ±ê¼Ç¸ÃÓ¢ÐÛÎªÒÑÑ¡Ôñ
+      index = rand() % 15;
     }
-    // Êä³öÑ¡ÔñµÄÓ¢ÐÛ
-    printf("¶Ô·½Ñ¡ÔñµÄÓ¢ÐÛÊÇ:");
-    for (int i = 0; i < 3; i++)
-    {
-        printf("%s ", team[i]);
-    }
+    team[i] = hero_list[index]; // æ›´æ–°é˜Ÿä¼ä¸­çš„è‹±é›„
+    chosen_index[index] = 1;    // æ ‡è®°è¯¥è‹±é›„ä¸ºå·²é€‰æ‹©
+  }
+  // è¾“å‡ºé€‰æ‹©çš„è‹±é›„
+  printf("å¯¹æ–¹é€‰æ‹©çš„è‹±é›„æ˜¯:");
+  for (int i = 0; i < 3; i++) {
+    printf("%s ", team[i]);
+  }
 }
 
-// ÓÉÍæ¼Ò×Ô¼ºÑ¡ÔñÔõÃ´ÒÆ¶¯
-int player_move(Hero *hero, Hero *enemy)
-{
-    int move;
+// ç”±çŽ©å®¶è‡ªå·±é€‰æ‹©æ€Žä¹ˆç§»åŠ¨
+int player_move(Hero *hero, Hero *enemy) {
+  int move;
 
-    printf("µÐ·½ÏÖÔÚµÄ¼ôµ¶:%d Ê¯Í·:%d ²¼:%d\n", enemy->scissors, enemy->rock, enemy->paper);
-    printf("ÄãÏÖÔÚµÄ¼ôµ¶:%d Ê¯Í·:%d ²¼:%d\n", hero->scissors, hero->rock, hero->paper);
+  printf("æ•Œæ–¹çŽ°åœ¨çš„å‰ªåˆ€:%d çŸ³å¤´:%d å¸ƒ:%d\n", enemy->scissors, enemy->rock,
+         enemy->paper);
+  printf("ä½ çŽ°åœ¨çš„å‰ªåˆ€:%d çŸ³å¤´:%d å¸ƒ:%d\n", hero->scissors, hero->rock,
+         hero->paper);
 
-    std::cout << "ÇëÑ¡ÔñÄãµÄ¶¯×÷£¨0=¼ôµ¶, 1=Ê¯Í·, 2=²¼£©£º" << std::endl;
+  std::cout << "è¯·é€‰æ‹©ä½ çš„åŠ¨ä½œï¼ˆ0=å‰ªåˆ€, 1=çŸ³å¤´, 2=å¸ƒï¼‰ï¼š" << std::endl;
 
-    std::cin >> move; // »ñÈ¡Íæ¼ÒÊäÈë
+  std::cin >> move; // èŽ·å–çŽ©å®¶è¾“å…¥
 
-    // Ð£ÑéÊäÈëÊÇ·ñÓÐÐ§
-    while (move != 0 && move != 1 && move != 2)
-    {
-        std::cout << "ÊäÈë´íÎó£¬ÇëÖØÐÂÊäÈë£¨0=¼ôµ¶, 1=Ê¯Í·, 2=²¼£©: ";
-        std::cin >> move; // »ñÈ¡Íæ¼ÒÊäÈë
-    }
+  // æ ¡éªŒè¾“å…¥æ˜¯å¦æœ‰æ•ˆ
+  while (move != 0 && move != 1 && move != 2) {
+    std::cout << "è¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼ˆ0=å‰ªåˆ€, 1=çŸ³å¤´, 2=å¸ƒï¼‰ï¼š";
+    std::cin >> move; // èŽ·å–çŽ©å®¶è¾“å…¥
+  }
 
-    while ((move == 0 && hero->scissors == 0) ||
-           (move == 1 && hero->rock == 0) ||
-           (move == 2 && hero->paper == 0))
-    {
-        printf("ÄãÃ»ÓÐ%s£¬ÇëÖØÐÂÑ¡Ôñ: ",
-               (move == 0 ? "¼ôµ¶" : (move == 1 ? "Ê¯Í·" : "²¼")));
-        std::cin >> move; // »ñÈ¡Íæ¼ÒÖØÐÂÊäÈë
-    }
+  while ((move == 0 && hero->scissors == 0) || (move == 1 && hero->rock == 0) ||
+         (move == 2 && hero->paper == 0)) {
+    printf("ä½ æ²¡æœ‰%sï¼Œè¯·é‡æ–°é€‰æ‹©: ",
+           (move == 0 ? "å‰ªåˆ€" : (move == 1 ? "çŸ³å¤´" : "å¸ƒ")));
+    std::cin >> move; // èŽ·å–çŽ©å®¶é‡æ–°è¾“å…¥
+  }
 
-    // ¼õÉÙÏàÓ¦¶¯×÷µÄÊýÁ¿
-    if (move == 0)
-    {
-        hero->scissors--;
-    }
-    else if (move == 1)
-    {
-        hero->rock--;
-    }
-    else if (move == 2)
-    {
-        hero->paper--;
-    }
+  // å‡å°‘ç›¸åº”åŠ¨ä½œçš„æ•°é‡
+  if (move == 0) {
+    hero->scissors--;
+  } else if (move == 1) {
+    hero->rock--;
+  } else if (move == 2) {
+    hero->paper--;
+  }
 
-    return move; // ·µ»ØËùÑ¡ÔñµÄ¶¯×÷
+  return move; // è¿”å›žæ‰€é€‰æ‹©çš„åŠ¨ä½œ
 }
 
-// Ëæ»úÑ¡ÔñÒÆ¶¯µÄº¯Êý£¬·µ»ØËùÑ¡ÔñµÄÒÆ¶¯·½Ê½
-int random_move(Hero *hero)
-{
-    int move; // ÒÆ¶¯·½Ê½£º0=¼ôµ¶, 1=Ê¯Í·, 2=²¼
-    do
-    {
-        srand(time(NULL));                         // ³õÊ¼»¯Ëæ»úÊýÖÖ×Ó
-        move = rand() % 3;                         // Ëæ»úÑ¡ÔñÒ»¸ö¶¯×÷
-    } while ((move == 0 && hero->scissors == 0) || // Èç¹ûÑ¡Ôñ¼ôµ¶£¬µ«Ã»ÓÐ¼ôµ¶¿ÉÓÃ
-             (move == 1 && hero->rock == 0) ||     // Èç¹ûÑ¡ÔñÊ¯Í·£¬µ«Ã»ÓÐÊ¯Í·¿ÉÓÃ
-             (move == 2 && hero->paper == 0)); // Èç¹ûÑ¡Ôñ²¼£¬µ«Ã»ÓÐ²¼¿ÉÓÃ
+// éšæœºé€‰æ‹©ç§»åŠ¨çš„å‡½æ•°ï¼Œè¿”å›žæ‰€é€‰æ‹©çš„ç§»åŠ¨æ–¹å¼
+int random_move(Hero *hero) {
+  int move; // ç§»åŠ¨æ–¹å¼ï¼š0=å‰ªåˆ€, 1=çŸ³å¤´, 2=å¸ƒ
+  do {
+    srand(time(NULL));                           // åˆå§‹åŒ–éšæœºæ•°ç§å­
+    move = rand() % 3;                           // éšæœºé€‰æ‹©ä¸€ä¸ªåŠ¨ä½œ
+  } while ((move == 0 && hero->scissors == 0) || // å¦‚æžœé€‰æ‹©å‰ªåˆ€ï¼Œä½†æ²¡æœ‰å‰ªåˆ€å¯ç”¨
+           (move == 1 && hero->rock == 0) || // å¦‚æžœé€‰æ‹©çŸ³å¤´ï¼Œä½†æ²¡æœ‰çŸ³å¤´å¯ç”¨
+           (move == 2 && hero->paper == 0)); // å¦‚æžœé€‰æ‹©å¸ƒï¼Œä½†æ²¡æœ‰å¸ƒå¯ç”¨
 
-    // ¼õÉÙÏàÓ¦¶¯×÷µÄÊýÁ¿
-    if (move == 0)
-        hero->scissors--;
-    else if (move == 1)
-        hero->rock--;
-    else
-        hero->paper--;
+  // å‡å°‘ç›¸åº”åŠ¨ä½œçš„æ•°é‡
+  if (move == 0)
+    hero->scissors--;
+  else if (move == 1)
+    hero->rock--;
+  else
+    hero->paper--;
 
-    return move; // ·µ»ØËùÑ¡ÔñµÄ¶¯×÷
+  return move; // è¿”å›žæ‰€é€‰æ‹©çš„åŠ¨ä½œ
 }

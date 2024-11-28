@@ -1,44 +1,38 @@
-#include <iostream>
-#include "user.hpp"
 #include "game.hpp"
 #include "ranking.hpp"
+#include "user.hpp"
+#include <iostream>
 
-int main()
-{
-    char *name = new char[20];
-    if (!login(name))
-    {
-        printf("×¢²á³É¹¦£¬»¶Ó­½øÈëÓÎÏ·£¡\n");
-    }
-    else
-    {
-        printf("µÇÂ¼³É¹¦£¬»¶Ó­»ØÀ´£¡\n");
-    }
+int main() {
+  char *name = new char[20];
+  if (!login(name)) {
+    printf("æ³¨å†ŒæˆåŠŸï¼Œæ¬¢è¿è¿›å…¥æ¸¸æˆï¼\n");
+  } else {
+    printf("ç™»å½•æˆåŠŸï¼Œæ¬¢è¿å›æ¥ï¼\n");
+  }
 
-    int choice;
-    while (1)
-    {
-        printf("\n=== ÍõÕßÅ©Ò© ===\n");
-        printf("1. ¿ªÊ¼ÓÎÏ·\n");
-        printf("2. ²é¿´ÅÅĞĞ°ñ\n");
-        printf("3. ÍË³ö\n");
-        printf("ÇëÑ¡Ôñ: ");
-        std::cin >> choice;
+  int choice;
+  while (1) {
+    printf("\n=== ç‹è€…å†œè¯ ===\n");
+    printf("1. å¼€å§‹æ¸¸æˆ\n");
+    printf("2. æŸ¥çœ‹æ’è¡Œæ¦œ\n");
+    printf("3. é€€å‡º\n");
+    printf("è¯·é€‰æ‹©: ");
+    std::cin >> choice;
 
-        switch (choice)
-        {
-        case 1:
-            start_game(name);
-            break;
-        case 2:
-            show_ranking();
-            break;
-        case 3:
-            printf("¸ĞĞ»ÓÎÏ·£¬ÔÙ¼û£¡\n");
-            return 0;
-        default:
-            printf("ÊäÈëÎŞĞ§£¬ÇëÖØĞÂÑ¡Ôñ¡£\n");
-        }
+    switch (choice) {
+    case 1:
+      start_game(name);
+      break;
+    case 2:
+      show_ranking();
+      break;
+    case 3:
+      printf("æ„Ÿè°¢æ¸¸æˆï¼Œå†è§ï¼\n");
+      return 0;
+    default:
+      printf("è¾“å…¥æ— æ•ˆï¼Œè¯·é‡æ–°é€‰æ‹©ã€‚\n");
     }
-    return 0;
+  }
+  return 0;
 }
