@@ -14,7 +14,7 @@ void start_game(char *name)
     int my_score = 0, enemy_score = 0;
     for (int round = 0; round < 9; round++)
     {
-        printf("\n第 {} 回合：\n", round + 1);
+        std::print("\n第 {} 回合：\n", round + 1);
 
         int my_move = player_move(&my_team[round % 3], &enemy_team[round % 3]);
 
