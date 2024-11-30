@@ -129,7 +129,7 @@ void GameWindow::playGame(int heroSelected) {
         return;
     }
 
-    qDebug() << "Hero " << heroSelected << " selected";
+    qDebug() << "Hero" << heroSelected << "selected";
     Game game;
 
     if (round < 9) {

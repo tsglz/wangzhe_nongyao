@@ -54,7 +54,7 @@ void Game::appendDatabase() {
 
 int Game::sum(QVector<int> list) {
     int sum = 0;
-    for (int value : list) {
+    for (int value: list) {
         sum += value;
     }
     return sum;
@@ -67,7 +67,7 @@ int Game::sum(QVector<int> list) {
  * @param heroSelected 
  * @return 0 - scissors, 1 - rock, 2 - paper
  */
-int Game::randomChoose(QVector<int> list, QVector<QVector<int>> &skills, int heroSelected) {
+int Game::randomChoose(QVector<int> list, QVector<QVector<int> > &skills, int heroSelected) {
     // 创建随机数生成器
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -91,4 +91,3 @@ int Game::randomChoose(QVector<int> list, QVector<QVector<int>> &skills, int her
 
     return choice;
 }
-
