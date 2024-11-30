@@ -1,4 +1,4 @@
-name: Windows
+name: Windows and Ubuntu
 
 on: [push]
 
@@ -15,41 +15,44 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Install ninja (linux)
-        run: sudo apt install ninja-build
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies (Linux)
+        run: sudo apt update && sudo apt install -y ninja-build
         if: matrix.os == 'ubuntu-latest'
-      - name: Install ninja (windows)
+
+      - name: Install dependencies (Windows)
         run: choco install ninja
         if: matrix.os == 'windows-latest'
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4.1.1
-            
         with:
-          version: ${{env.QT_VERSION}}
+          version: ${{ env.QT_VERSION }}
 
-      - name: Call vcvarsall.bat Windows amd64
+      - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
+        if: matrix.os == 'windows-latest'
 
-      - name: Checkout source code
-        uses: actions/checkout@v3
+      - name: Configure CMake
+        run: cmake -S . -B build_dir -G "Ninja Multi-Config"
 
       - name: Build
-        run: |
-          cmake -S . -B build_dir -G "Ninja Multi-Config"
-          cmake --build build_dir --config Release
+        run: cmake --build build_dir --config Release
+
       - name: Upload Windows Executable
         if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v3
         with:
-          name: windows-exe
-          path: build_dir/Release/your_program.exe
+          name: windows-executable
+          path: build_dir/Release/wangzhe_nongyao_qt_version2.exe
 
       - name: Upload Linux Executable
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
-          name: linux-bin
-          path: build_dir/your_program
+          name: linux-executable
+          path: build_dir/wangzhe_nongyao_qt_version2
