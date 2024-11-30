@@ -18,7 +18,7 @@ PrepareWindow::~PrepareWindow()
 
 void PrepareWindow::on_Game_clicked()
 {
-    gameWindow = new GameWindow(username);
+    gameWindow = new GameWindow(username, &oppositeSkillsData, &selectedSkillsData);
     gameWindow->show();
 
     this->hide();

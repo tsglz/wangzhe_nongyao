@@ -2,14 +2,18 @@
 #include "ui_GameWindow.h"
 #include "PrepareWindow.h"
 
-GameWindow::GameWindow(const QString &username, QWidget *parent)
+GameWindow::GameWindow(const QString &username, QVector<QVector<int> > *oppositeSkillsPtr, QVector<QVector<int> > *selectedSkillsPtr, QWidget *parent)
     : QDialog(parent)
       , ui(new Ui::GameWindow)
       , gameViewModel(new QStandardItemModel)
       , prepareWindow(nullptr)
       , username(username)
       , hero(hero)
-      , selectedHeroes(15, 0) {
+      , selectedHeroes(15, 0)
+      , oppositeSkills(oppositeSkillsPtr)
+      , selectedSkills(selectedSkillsPtr)
+      , round(round), win(win), lose(lose), draw(draw)
+{
     ui->setupUi(this);
     ui->gameView->setModel(gameViewModel);
 
@@ -56,7 +60,22 @@ void GameWindow::on_comfirm_clicked() // Button to select heroes
     }
 
     if (selectedHeroCount == 3) {
+        Hero hero;
+        auto heroList = hero.showHeroes();
         printOnGameView("You have selected all three heroes.");
+        qDebug() << "selected heroes: " << selectedHeroes;
+        qDebug() << "selected heroes: " << oppositeRandomSelectedHeroes;
+
+        for(size_t i = 0; i < selectedHeroes.size(); i++) {
+            if (selectedHeroes[i] == 1) {
+                selectedSkills->append({heroList[i].scissors, heroList[i].rock, heroList[i].paper});
+            }
+            if (oppositeRandomSelectedHeroes[i] == 1) {
+                oppositeSkills->append({heroList[i].scissors, heroList[i].rock, heroList[i].paper});
+            }
+        }
+        qDebug() << "Selected skills: " << selectedSkills;
+        qDebug() << "Opposite skills: " << oppositeSkills;
     }
 
     input->clear();
@@ -88,8 +107,51 @@ void GameWindow::printOnGameView(QString content) {
     }
 }
 
-void GameWindow::on_hero_0_clicked()
+void GameWindow::on_hero_0_clicked() // button 0
 {
-
+    playGame(0);
 }
 
+
+void GameWindow::on_hero_1_clicked()
+{
+    playGame(1);
+}
+
+void GameWindow::on_hero_2_clicked()
+{
+    playGame(2);
+}
+
+void GameWindow::playGame(int heroSelected) {
+    if (selectedHeroCount < 3) {
+        printOnGameView("You have not selected three heroes.");
+        return;
+    }
+
+    qDebug() << "Hero " << heroSelected << " selected";
+    Game game;
+
+    if (round < 9) {
+        qDebug() << "Selected skills: " << *selectedSkills;
+        qDebug() << "Opposite skills: " << *oppositeSkills;
+
+        int result = game.hasGame(username, *oppositeSkills, *selectedSkills, round, heroSelected);
+
+        if (result == 1) {
+            printOnGameView("You win!");
+            round++; win++;
+        } else if (result == 0) {
+            printOnGameView("Draw!");
+            round++; draw++;
+        } else if (result == -1) {
+            printOnGameView("You lose!");
+            round++; lose++;
+        } else if (result == -10) {
+            printOnGameView("There is no skills. Please select another hero.");
+        }
+        qDebug() << "Round: " << round;
+        qDebug() << "Selected skills: " << *selectedSkills;
+        qDebug() << "Opposite skills: " << *oppositeSkills;
+    }
+}

@@ -27,6 +27,8 @@ private:
     GameWindow *gameWindow;
     RankingWindow *rankingWindow;
     QString username;
+    QVector<QVector<int>> oppositeSkillsData;
+    QVector<QVector<int>> selectedSkillsData;
 };
 
 #endif // PREPAREWINDOW_H
