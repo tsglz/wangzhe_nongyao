@@ -18,7 +18,7 @@ int Game::hasGame(QString username, QVector<QVector<int> > &oppositeSkills, QVec
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 2);
+    std::uniform_int_distribution dis(0, 2);
     int oppositeHeroSelected;
 
     QVector<int> oppositeSkillsSingleList;
