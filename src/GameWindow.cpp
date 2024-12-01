@@ -8,11 +8,11 @@ GameWindow::GameWindow(const QString &username, QVector<QVector<int> > *opposite
       , gameViewModel(new QStandardItemModel)
       , prepareWindow(nullptr)
       , username(username)
-      , hero(hero)
+      , hero()
       , selectedHeroes(15, 0)
       , oppositeSkills(oppositeSkillsPtr)
       , selectedSkills(selectedSkillsPtr)
-      , round(round), win(win), lose(lose), draw(draw)
+      , round(0), win(0), lose(0), draw(0)
 {
     ui->setupUi(this);
     ui->gameView->setModel(gameViewModel);
@@ -129,7 +129,7 @@ void GameWindow::playGame(int heroSelected) {
         return;
     }
 
-    qDebug() << "Hero " << heroSelected << " selected";
+    qDebug() << "Hero" << heroSelected << "selected";
     Game game;
 
     if (round < 9) {
