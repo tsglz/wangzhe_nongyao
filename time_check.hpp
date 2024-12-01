@@ -9,6 +9,7 @@
 #include <functional>
 #include <mingw.mutex.h>              // 包含互斥锁相关的头文件
 #include <mingw.condition_variable.h> // 包含条件变量相关的头文件
+#include "hero.hpp"
 
 int waitForInput(Hero *hero, Hero *enemy);
 

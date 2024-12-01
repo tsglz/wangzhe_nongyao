@@ -14,9 +14,9 @@ void start_game(char *name)
     int my_score = 0, enemy_score = 0;
     for (int round = 0; round < 9; round++)
     {
-        std::print("\n第 {} 回合：\n", round + 1);
+        printf("\n第 %d 回合：\n", round + 1);
 
-        int my_move = player_move(&my_team[round % 3], &enemy_team[round % 3]);
+        int my_move = player_move(my_team);
 
         int enemy_move = random_move(&enemy_team[round % 3]);
 
