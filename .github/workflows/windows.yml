@@ -43,6 +43,9 @@ jobs:
       - name: Build
         run: cmake --build build_dir --config Release
 
+      - name: Build with windeployqt.exe
+        run: D:\a\wangzhe_nongyao\Qt\6.8.0\msvc2022_64\bin\windeployqt.exe D:\a\wangzhe_nongyao\wangzhe_nongyao\build_dir\Release\wangzhe_nongyao_qt_version2.exe
+
       - name: List build directory contents
         run: ls -R build_dir
 
@@ -52,7 +55,6 @@ jobs:
         with:
           name: windows-executable
           path: D:\a\wangzhe_nongyao\wangzhe_nongyao\build_dir\Release\wangzhe_nongyao_qt_version2.exe
-
 
       - name: Upload Linux Executable
         if: matrix.os == 'ubuntu-latest'
