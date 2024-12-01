@@ -1,0 +1,51 @@
+name: Windows
+
+on: [push]
+
+env:
+  QT_VERSION: 6.8.0
+
+jobs:
+  build:
+    name: "Build"
+    strategy:
+      matrix:
+        os: [windows-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: choco install ninja
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4.1.1
+        with:
+          version: ${{ env.QT_VERSION }}
+
+      - name: Set up MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+
+      - name: Configure CMake
+        run: cmake -S . -B build_dir -G "Ninja Multi-Config"
+
+      - name: Build
+        run: cmake --build build_dir --config Release
+
+      - name: Build with windeployqt.exe
+        run: D:\a\wangzhe_nongyao\Qt\6.8.0\msvc2022_64\bin\windeployqt.exe D:\a\wangzhe_nongyao\wangzhe_nongyao\build_dir\Release\wangzhe_nongyao_qt_version2.exe
+
+      - name: List build directory contents
+        run: ls -R build_dir
+
+      - name: Upload Windows Executable
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-executable
+          path: D:\a\wangzhe_nongyao\wangzhe_nongyao\build_dir\Release
