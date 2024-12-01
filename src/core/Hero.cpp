@@ -36,8 +36,7 @@ QVector<int> Hero::oppositeRandomSelectedHeroes() {
 
     for (int i = 0; i < 3; i++) {
         int index = distribution(generator); // Randomly select a hero index
-        while (oppositeRandomHeroes[index]) {
-            // If already chosen, pick another
+        while (oppositeRandomHeroes[index]) { // If already chosen, pick another
             index = distribution(generator);
         }
         oppositeRandomHeroes[index] = 1; // Mark hero as chosen

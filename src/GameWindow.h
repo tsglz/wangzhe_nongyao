@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QStandardItemModel>
 #include "core/Hero.h"
+#include "core/Hero.h"
 #include "core/Game.h"
 
 class PrepareWindow;
