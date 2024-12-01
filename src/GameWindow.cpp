@@ -13,6 +13,7 @@ GameWindow::GameWindow(const QString &username, QVector<QVector<int> > *opposite
       , oppositeSkills(oppositeSkillsPtr)
       , selectedSkills(selectedSkillsPtr)
       , round(0), win(0), lose(0), draw(0)
+      , timer(new QTimer)
 {
     ui->setupUi(this);
     ui->gameView->setModel(gameViewModel);
@@ -26,6 +27,8 @@ GameWindow::GameWindow(const QString &username, QVector<QVector<int> > *opposite
             " Rock::" + QString::number(heroList[i].rock) + " Paper: " + QString::number(heroList[i].paper));
     }
     printOnGameView(""); // Add an empty line
+
+    connect(timer, &QTimer::timeout, this, &GameWindow::onTimeout);
 }
 
 GameWindow::~GameWindow() {
@@ -84,6 +87,7 @@ void GameWindow::on_comfirm_clicked() // Button to select heroes
             }
             index++;
         }
+        timer->start(5000);
     }
 
     input->clear();
@@ -132,6 +136,7 @@ void GameWindow::on_hero_2_clicked()
 }
 
 void GameWindow::playGame(QPair<int, int> heroSelected) {
+    timer->start(5000);
     if (selectedHeroCount < 3) {
         printOnGameView("You have not selected three heroes.");
         return;
@@ -161,6 +166,8 @@ void GameWindow::playGame(QPair<int, int> heroSelected) {
         qDebug() << "Round: " << round;
         qDebug() << "Selected skills: " << *selectedSkills;
         qDebug() << "Opposite skills: " << *oppositeSkills;
+    } else {
+        timer->stop();
     }
 }
 
@@ -181,3 +188,27 @@ int GameWindow::getIndexOfHero(QVector<int> selectedHeroes, int heroSelectedInde
         index++;
     }
 }
+
+void GameWindow::onTimeout() {
+    timer->start(5000);
+
+    std::random_device rd;
+    std::mt19937 eng(rd());
+    std::uniform_int_distribution distr(0, 2);
+
+    int randomIndex = distr(eng);
+
+    switch (randomIndex) {
+        case 0:
+            on_hero_0_clicked();
+        break;
+        case 1:
+            on_hero_1_clicked();
+        break;
+        case 2:
+            on_hero_2_clicked();
+        break;
+    }
+
+}
+

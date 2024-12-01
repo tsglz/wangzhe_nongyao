@@ -5,6 +5,8 @@
 #include <QStandardItemModel>
 #include "core/Hero.h"
 #include "core/Game.h"
+#include <QTimer>
+#include <random>
 
 class PrepareWindow;
 
@@ -31,6 +33,8 @@ private slots:
 
     void on_hero_2_clicked();
 
+    void onTimeout();
+
 private:
     Ui::GameWindow *ui;
     QStandardItemModel *gameViewModel;
@@ -43,6 +47,7 @@ private:
     int round = 0, win = 0, lose = 0, draw = 0;
     QVector<QVector<int>> *oppositeSkills;
     QVector<QVector<int>> *selectedSkills;
+    QTimer *timer;
 
     void printOnGameView(QString content);
 
