@@ -48,14 +48,15 @@ jobs:
 
       - name: Upload Windows Executable
         if: matrix.os == 'windows-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows-executable
-          path: build_dir/Release/wangzhe_nongyao_qt_version2.exe
+          path: D:\a\wangzhe_nongyao\wangzhe_nongyao\build_dir\Release\wangzhe_nongyao_qt_version2.exe
+
 
       - name: Upload Linux Executable
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: linux-executable
-          path: build_dir/wangzhe_nongyao_qt_version2
+          path: build_dir/Release/wangzhe_nongyao_qt_version2
