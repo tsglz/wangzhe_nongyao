@@ -46,7 +46,9 @@ private:
 
     void printOnGameView(QString content);
 
-    void playGame(int heroSelected);
+    void playGame(QPair<int, int> heroSelected);
+
+    int getIndexOfHero(QVector<int> selectedHeroes, int heroSelectedIndex);
 };
 
 #endif // GAMEWINDOW_H

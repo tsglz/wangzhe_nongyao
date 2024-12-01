@@ -74,8 +74,16 @@ void GameWindow::on_comfirm_clicked() // Button to select heroes
                 oppositeSkills->append({heroList[i].scissors, heroList[i].rock, heroList[i].paper});
             }
         }
-        qDebug() << "Selected skills: " << selectedSkills;
-        qDebug() << "Opposite skills: " << oppositeSkills;
+        qDebug() << "Selected skills: " << *selectedSkills;
+        qDebug() << "Opposite skills: " << *oppositeSkills;
+
+        int index = 0;
+        for(size_t i : selectedHeroes) {
+            if (i == 1) {
+                printOnGameView("You selected hero: " + QString::number(index));
+            }
+            index++;
+        }
     }
 
     input->clear();
@@ -109,21 +117,21 @@ void GameWindow::printOnGameView(QString content) {
 
 void GameWindow::on_hero_0_clicked() // button 0
 {
-    playGame(0);
+    playGame({0, getIndexOfHero(selectedHeroes, 0)});
 }
 
 
 void GameWindow::on_hero_1_clicked()
 {
-    playGame(1);
+    playGame({1, getIndexOfHero(selectedHeroes, 1)});
 }
 
 void GameWindow::on_hero_2_clicked()
 {
-    playGame(2);
+    playGame({2, getIndexOfHero(selectedHeroes, 2)});
 }
 
-void GameWindow::playGame(int heroSelected) {
+void GameWindow::playGame(QPair<int, int> heroSelected) {
     if (selectedHeroCount < 3) {
         printOnGameView("You have not selected three heroes.");
         return;
@@ -136,7 +144,7 @@ void GameWindow::playGame(int heroSelected) {
         qDebug() << "Selected skills: " << *selectedSkills;
         qDebug() << "Opposite skills: " << *oppositeSkills;
 
-        int result = game.hasGame(username, *oppositeSkills, *selectedSkills, round, heroSelected);
+        int result = game.hasGame(username, *oppositeSkills, *selectedSkills, round, heroSelected, selectedHeroes);
 
         if (result == 1) {
             printOnGameView("You win!");
@@ -153,5 +161,23 @@ void GameWindow::playGame(int heroSelected) {
         qDebug() << "Round: " << round;
         qDebug() << "Selected skills: " << *selectedSkills;
         qDebug() << "Opposite skills: " << *oppositeSkills;
+    }
+}
+
+/**
+ *
+ * @param selectedHeroes
+ * @param heroSelectedIndex 0 1 2
+ * @return
+ */
+int GameWindow::getIndexOfHero(QVector<int> selectedHeroes, int heroSelectedIndex) {
+    int index = 0, acount = 0;
+    for (size_t i : selectedHeroes) {
+        if (i == 1) {
+            if(heroSelectedIndex == acount) {
+                return index;
+            }
+        }
+        index++;
     }
 }

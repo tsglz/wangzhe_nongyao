@@ -21,6 +21,7 @@ void Login::initDatabase() {
 }
 
 bool Login::isLogin(const QString &username, const QString &password) {
+    initDatabase();
     QSqlQuery query;
     query.prepare("SELECT * FROM users WHERE username = :username AND password = :password");
     query.bindValue(":username", username);
@@ -28,13 +29,14 @@ bool Login::isLogin(const QString &username, const QString &password) {
 
     if (query.exec() && query.next()) {
         qDebug() << "Login successfully!";
+        db.close();
         return true;
     } else {
         qWarning() << "Username or password is error!";
+        db.close();
         return false;
     }
 }
 
 Login::~Login() {
-    db.close();
 }
