@@ -1,4 +1,4 @@
-name: Windows and Ubuntu
+name: Windows
 
 on: [push]
 
@@ -10,7 +10,7 @@ jobs:
     name: "Build"
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [windows-latest]
 
     runs-on: ${{ matrix.os }}
 
@@ -18,13 +18,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Install dependencies (Linux)
-        run: sudo apt update && sudo apt install -y ninja-build
-        if: matrix.os == 'ubuntu-latest'
-
-      - name: Install dependencies (Windows)
+      - name: Install dependencies
         run: choco install ninja
-        if: matrix.os == 'windows-latest'
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4.1.1
@@ -35,7 +30,6 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
-        if: matrix.os == 'windows-latest'
 
       - name: Configure CMake
         run: cmake -S . -B build_dir -G "Ninja Multi-Config"
@@ -55,10 +49,3 @@ jobs:
         with:
           name: windows-executable
           path: D:\a\wangzhe_nongyao\wangzhe_nongyao\build_dir\Release\wangzhe_nongyao_qt_version2.exe
-
-      - name: Upload Linux Executable
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-executable
-          path: build_dir/Release/wangzhe_nongyao_qt_version2
