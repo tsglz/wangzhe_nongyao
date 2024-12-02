@@ -187,6 +187,7 @@ int GameWindow::getIndexOfHero(QVector<int> selectedHeroes, int heroSelectedInde
             if(heroSelectedIndex == acount) {
                 return index;
             }
+            acount++;
         }
         index++;
     }
