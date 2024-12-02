@@ -31,6 +31,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/core/Register.h src/core/Register.cpp
         src/core/Game.h src/core/Game.cpp
         src/core/Hero.h src/core/Hero.cpp
+        src/core/Ranking.h src/core/Ranking.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET wangzhe_nongyao_qt_version2 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

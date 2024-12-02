@@ -13,9 +13,9 @@ public:
     Game();
 
     int hasGame(QString username, QVector<QVector<int> > &oppositeSkills, QVector<QVector<int> > &selectedSkills,
-                int round, QPair<int, int> heroSelected, QVector<int> selectedHeroes);
+                int round, QPair<int, int> heroSelected, QPair<int, int> oppositeHeroSelected);
 
-    // void appendDatabase(QVector<int> selectedHeroes, int heroSelected);
+    void appendDatabase(QPair<int, int> heroSelected, QPair<int, int> oppositeHeroSelected, int result);
 
     ~Game();
 

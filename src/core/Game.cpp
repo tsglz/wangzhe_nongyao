@@ -10,10 +10,10 @@ Game::Game() {
  * @param selectedSkills QList(QList(0, 3, 3), QList(4, 1, 1), QList(3, 2, 1))
  * @param round calculate win rate
  * @param heroSelected the first is 0 1 2, which depends on the button clicked. The second is the index of the selected hero, such as 1 9 10
- * @return
+ * @return 0 - draw, 1 - win, -1 - lose, -10 - no skills
  */
 int Game::hasGame(QString username, QVector<QVector<int> > &oppositeSkills, QVector<QVector<int> > &selectedSkills,
-                  int round, QPair<int, int> heroSelected, QVector<int> selectedHeroes) {
+                  int round, QPair<int, int> heroSelected, QPair<int, int> oppositeHeroSelected) {
     // username 和 round 仅仅用于计算胜率
 
     Hero hero;
@@ -22,7 +22,7 @@ int Game::hasGame(QString username, QVector<QVector<int> > &oppositeSkills, QVec
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution dis(0, 2);
-    QPair<int, int> oppositeHeroSelected;
+    // QPair<int, int> oppositeHeroSelected;
 
     QVector<int> oppositeSkillsSingleList;
     QVector<int> selectedSkillsSingleList = (selectedSkills)[heroSelected.first];
@@ -40,11 +40,22 @@ int Game::hasGame(QString username, QVector<QVector<int> > &oppositeSkills, QVec
     int oppositeChoice = randomChoose(oppositeSkillsSingleList, oppositeSkills, oppositeHeroSelected); // oppositeHeroSelected 的第二个参数其实为空 具体的处理的部分放在了 randomChoose 函数里面
     int userChoice = randomChoose(selectedSkillsSingleList, selectedSkills, heroSelected);
 
+    qDebug() <<  "oppositeHeroSelected: " << oppositeHeroSelected;
+    initDatabase();
     if (userChoice == oppositeChoice) {
+        // addDatabase(heroList[oppositeHeroSelected.second].name, QString::number(oppositeChoice), 0);
+        addDatabase(heroList[heroSelected.second].name, QString::number(userChoice), 0);
+        db.close();
         return 0;
     } else if ((userChoice + 1) % 3 == oppositeChoice) {
+        // addDatabase(heroList[oppositeHeroSelected.second].name, QString::number(oppositeChoice), -1);
+        addDatabase(heroList[heroSelected.second].name, QString::number(userChoice), 1);
+        db.close();
         return -1;
     } else {
+        // addDatabase(heroList[oppositeHeroSelected.second].name, QString::number(oppositeChoice), 1);
+        addDatabase(heroList[heroSelected.second].name, QString::number(userChoice), -1);
+        db.close();
         return 1;
     }
 }
@@ -93,12 +104,12 @@ int Game::randomChoose(QVector<int> list, QVector<QVector<int> > &skills, QPair<
     heroSkills[choice]--;
 
     // Database part
-    initDatabase();
-    Hero hero;
-    auto heroList = hero.showHeroes();
-    addDatabase(heroList[heroSelected.second].name, QString::number(choice), choice);
-
-    db.close();
+    // initDatabase();
+    // Hero hero;
+    // auto heroList = hero.showHeroes();
+    // addDatabase(heroList[heroSelected.second].name, QString::number(choice), choice);
+    //
+    // db.close();
     return choice;
 }
 
@@ -176,3 +187,10 @@ void Game::addDatabase(QString heroName, QString skill, int result) {
 //         index++;
 //     }
 // }
+
+// void Game::appendDatabase(QPair<int, int> heroSelected, QPair<int, int> oppositeHeroSelected, int result) {
+//     Hero hero;
+//     auto heroList = hero.showHeroes();
+//     addDatabase(heroList[oppositeHeroSelected.second].name, QString::number(oppositeChoice), 0);
+// }
+

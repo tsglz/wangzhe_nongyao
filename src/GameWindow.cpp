@@ -137,6 +137,7 @@ void GameWindow::on_hero_2_clicked()
 
 void GameWindow::playGame(QPair<int, int> heroSelected) {
     timer->start(5000);
+
     if (selectedHeroCount < 3) {
         printOnGameView("You have not selected three heroes.");
         return;
@@ -152,7 +153,7 @@ void GameWindow::playGame(QPair<int, int> heroSelected) {
         qDebug() << "Selected skills: " << *selectedSkills;
         qDebug() << "Opposite skills: " << *oppositeSkills;
 
-        int result = game.hasGame(username, *oppositeSkills, *selectedSkills, round, heroSelected, selectedHeroes);
+        int result = game.hasGame(username, *oppositeSkills, *selectedSkills, round, heroSelected, {0, 0});
 
         auto userAfter = *selectedSkills;
         auto oppositeAfter = *oppositeSkills;
