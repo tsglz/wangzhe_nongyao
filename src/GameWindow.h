@@ -18,7 +18,8 @@ class GameWindow : public QDialog {
     Q_OBJECT
 
 public:
-    explicit GameWindow(const QString &username, QVector<QVector<int>> *oppositeSkillsPtr, QVector<QVector<int>> *selectedSkillsPtr, QWidget *parent = nullptr);
+    explicit GameWindow(const QString &username, QVector<QVector<int> > *oppositeSkillsPtr,
+                        QVector<QVector<int> > *selectedSkillsPtr, QWidget *parent = nullptr);
 
     ~GameWindow();
 
@@ -45,8 +46,8 @@ private:
     QVector<int> oppositeRandomSelectedHeroes = hero.oppositeRandomSelectedHeroes();
     int selectedHeroCount = 0;
     int round = 0, win = 0, lose = 0, draw = 0;
-    QVector<QVector<int>> *oppositeSkills;
-    QVector<QVector<int>> *selectedSkills;
+    QVector<QVector<int> > *oppositeSkills;
+    QVector<QVector<int> > *selectedSkills;
     QTimer *timer;
 
     void printOnGameView(QString content);
@@ -54,6 +55,11 @@ private:
     void playGame(QPair<int, int> heroSelected);
 
     int getIndexOfHero(QVector<int> selectedHeroes, int heroSelectedIndex);
+
+    void showResult(QVector<QVector<int> > userPrev, QVector<QVector<int> > oppositePrev,
+                    QVector<QVector<int> > userAfter, QVector<QVector<int> > oppositeAfter, int result);
+
+    QPair<int, int> differ(QVector<QVector<int>> prev, QVector<QVector<int>> after);
 };
 
 #endif // GAMEWINDOW_H
