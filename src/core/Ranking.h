@@ -2,6 +2,9 @@
 #define RANKING_H
 #include <QSqlDatabase>
 #include <QVector>
+#include <QSqlQuery>
+#include "Hero.h"
+
 
 class Ranking {
 public:
@@ -9,7 +12,7 @@ public:
 
     ~Ranking();
 
-    QPair<QString, float> showHeroRank();
+    QVector<QPair<QString, float>> showHeroRank();
 
 private:
     QSqlDatabase db;

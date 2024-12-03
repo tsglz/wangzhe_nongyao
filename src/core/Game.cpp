@@ -48,13 +48,13 @@ int Game::hasGame(QString username, QVector<QVector<int> > &oppositeSkills, QVec
         db.close();
         return 0;
     } else if ((userChoice + 1) % 3 == oppositeChoice) {
-        // addDatabase(heroList[oppositeHeroSelected.second].name, QString::number(oppositeChoice), -1);
-        addDatabase(heroList[heroSelected.second].name, QString::number(userChoice), 1);
+        // addDatabase(heroList[oppositeHeroSelected.second].name, QString::number(oppositeChoice), 1);
+        addDatabase(heroList[heroSelected.second].name, QString::number(userChoice), -1);
         db.close();
         return -1;
     } else {
-        // addDatabase(heroList[oppositeHeroSelected.second].name, QString::number(oppositeChoice), 1);
-        addDatabase(heroList[heroSelected.second].name, QString::number(userChoice), -1);
+        // addDatabase(heroList[oppositeHeroSelected.second].name, QString::number(oppositeChoice), -1);
+        addDatabase(heroList[heroSelected.second].name, QString::number(userChoice), 1);
         db.close();
         return 1;
     }

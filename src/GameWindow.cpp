@@ -8,7 +8,6 @@ GameWindow::GameWindow(const QString &username, QVector<QVector<int> > *opposite
       , gameViewModel(new QStandardItemModel)
       , prepareWindow(nullptr)
       , username(username)
-      , hero()
       , selectedHeroes(15, 0)
       , oppositeSkills(oppositeSkillsPtr)
       , selectedSkills(selectedSkillsPtr)
