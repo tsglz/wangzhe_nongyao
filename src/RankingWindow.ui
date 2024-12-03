@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>477</width>
-    <height>383</height>
+    <width>401</width>
+    <height>312</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,10 +45,11 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QListView" name="userListView"/>
-       </item>
-       <item>
-        <widget class="QListView" name="heroListView"/>
+        <widget class="QListView" name="heroListView">
+         <property name="editTriggers">
+          <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
