@@ -23,6 +23,7 @@ void PrepareWindow::on_Game_clicked()
 
     this->hide();
     qDebug() << "info: " << username;
+
 }
 
 

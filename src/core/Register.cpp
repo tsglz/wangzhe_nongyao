@@ -36,6 +36,7 @@ bool Register::isRegister(const QString &username, const QString &password) {
 
     if (!query.exec()) {
         qWarning() << "Unable to add user: " << query.lastError().text();
+        db.close();
         return false;
     } else {
         qDebug() << "User added successfully!";
@@ -46,16 +47,17 @@ bool Register::isRegister(const QString &username, const QString &password) {
     query.bindValue(":password", password);
 
     if (!query.exec()) {
+        db.close();
         return false;
     }
 
     if (query.next() && query.value(0).toInt() > 0) {
+        db.close();
         return true;
     }
 }
 
 Register::~Register() {
-    db.close();
 }
 
 /**

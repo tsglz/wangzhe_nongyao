@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/images/(2).jpg</file>
+        <file>res/images/1 (2).jpg</file>
+        <file>res/images/IMG_4779.JPG</file>
+        <file>res/images/OIP).jpg</file>
+        <file>res/images/OIP-C (1).jpg</file>
+        <file>res/images/OIP-C (2).jpg</file>
+        <file>res/images/x5p50Umnpb.jpg</file>
+        <file>res/images/下载.jpg</file>
+        <file>res/images/IMG_4790.JPG</file>
+        <file>res/images/x5p50Umnpb(20241202-185758).jpg</file>
+        <file>res/images/IMG_4783.JPG</file>
+        <file>res/images/IMG_4784.JPG</file>
+        <file>res/images/OI.jpg</file>
+        <file>res/images/IMG_4794.JPG</file>
+        <file>res/images/IMG_4795.JPG</file>
+        <file>res/images/IMG_4796.JPG</file>
+    </qresource>
+</RCC>

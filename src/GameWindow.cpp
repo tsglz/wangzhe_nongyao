@@ -8,11 +8,12 @@ GameWindow::GameWindow(const QString &username, QVector<QVector<int> > *opposite
       , gameViewModel(new QStandardItemModel)
       , prepareWindow(nullptr)
       , username(username)
-      , hero(hero)
+      , hero()
       , selectedHeroes(15, 0)
       , oppositeSkills(oppositeSkillsPtr)
       , selectedSkills(selectedSkillsPtr)
-      , round(round), win(win), lose(lose), draw(draw)
+      , round(0), win(0), lose(0), draw(0)
+      , timer(new QTimer)
 {
     ui->setupUi(this);
     ui->gameView->setModel(gameViewModel);
@@ -26,6 +27,8 @@ GameWindow::GameWindow(const QString &username, QVector<QVector<int> > *opposite
             " Rock::" + QString::number(heroList[i].rock) + " Paper: " + QString::number(heroList[i].paper));
     }
     printOnGameView(""); // Add an empty line
+
+    connect(timer, &QTimer::timeout, this, &GameWindow::onTimeout);
 }
 
 GameWindow::~GameWindow() {
@@ -74,8 +77,17 @@ void GameWindow::on_comfirm_clicked() // Button to select heroes
                 oppositeSkills->append({heroList[i].scissors, heroList[i].rock, heroList[i].paper});
             }
         }
-        qDebug() << "Selected skills: " << selectedSkills;
-        qDebug() << "Opposite skills: " << oppositeSkills;
+        qDebug() << "Selected skills: " << *selectedSkills;
+        qDebug() << "Opposite skills: " << *oppositeSkills;
+
+        int index = 0;
+        for(size_t i : selectedHeroes) {
+            if (i == 1) {
+                printOnGameView("You selected hero: " + QString::number(index));
+            }
+            index++;
+        }
+        timer->start(5000);
     }
 
     input->clear();
@@ -109,49 +121,152 @@ void GameWindow::printOnGameView(QString content) {
 
 void GameWindow::on_hero_0_clicked() // button 0
 {
-    playGame(0);
+    playGame({0, getIndexOfHero(selectedHeroes, 0)});
 }
 
 
 void GameWindow::on_hero_1_clicked()
 {
-    playGame(1);
+    playGame({1, getIndexOfHero(selectedHeroes, 1)});
 }
 
 void GameWindow::on_hero_2_clicked()
 {
-    playGame(2);
+    playGame({2, getIndexOfHero(selectedHeroes, 2)});
 }
 
-void GameWindow::playGame(int heroSelected) {
+void GameWindow::playGame(QPair<int, int> heroSelected) {
+    timer->start(5000);
     if (selectedHeroCount < 3) {
         printOnGameView("You have not selected three heroes.");
         return;
     }
 
-    qDebug() << "Hero " << heroSelected << " selected";
+    qDebug() << "Hero" << heroSelected.first << "selected";
     Game game;
 
     if (round < 9) {
+        auto userPrev = *selectedSkills;
+        auto oppositePrev = *oppositeSkills;
+
         qDebug() << "Selected skills: " << *selectedSkills;
         qDebug() << "Opposite skills: " << *oppositeSkills;
 
-        int result = game.hasGame(username, *oppositeSkills, *selectedSkills, round, heroSelected);
+        int result = game.hasGame(username, *oppositeSkills, *selectedSkills, round, heroSelected, selectedHeroes);
 
-        if (result == 1) {
-            printOnGameView("You win!");
-            round++; win++;
-        } else if (result == 0) {
-            printOnGameView("Draw!");
-            round++; draw++;
-        } else if (result == -1) {
-            printOnGameView("You lose!");
-            round++; lose++;
-        } else if (result == -10) {
-            printOnGameView("There is no skills. Please select another hero.");
-        }
+        auto userAfter = *selectedSkills;
+        auto oppositeAfter = *oppositeSkills;
+
+        showResult(userPrev, oppositePrev, userAfter, oppositeAfter, result);
+
         qDebug() << "Round: " << round;
         qDebug() << "Selected skills: " << *selectedSkills;
         qDebug() << "Opposite skills: " << *oppositeSkills;
+
+    } else {
+        printOnGameView("");
+        printOnGameView("Game over!");
+        printOnGameView("You win: " + QString::number(win));
+        printOnGameView("You draw: " + QString::number(draw));
+        printOnGameView("You lose: " + QString::number(lose));
+        timer->stop();
     }
 }
+
+/**
+ *
+ * @param selectedHeroes
+ * @param heroSelectedIndex 0 1 2
+ * @return
+ */
+int GameWindow::getIndexOfHero(QVector<int> selectedHeroes, int heroSelectedIndex) {
+    int index = 0, acount = 0;
+    for (size_t i : selectedHeroes) {
+        if (i == 1) {
+            if(heroSelectedIndex == acount) {
+                return index;
+            }
+        }
+        index++;
+    }
+}
+
+void GameWindow::onTimeout() {
+    timer->start(5000);
+
+    std::random_device rd;
+    std::mt19937 eng(rd());
+    std::uniform_int_distribution distr(0, 2);
+
+    int randomIndex = distr(eng);
+
+    switch (randomIndex) {
+        case 0:
+            on_hero_0_clicked();
+        break;
+        case 1:
+            on_hero_1_clicked();
+        break;
+        case 2:
+            on_hero_2_clicked();
+        break;
+    }
+}
+
+
+void GameWindow::showResult(QVector<QVector<int> > userPrev, QVector<QVector<int> > oppositePrev, QVector<QVector<int> > userAfter, QVector<QVector<int> > oppositeAfter, int result) {
+    QPair<int, int> userDiffer = differ(userPrev, userAfter);
+    QPair<int, int> oppositeDiffer = differ(oppositePrev, oppositeAfter);
+
+    QVector<QString> skills = {"Scissors", "Rock", "Paper"};
+
+    printOnGameView("Round: " + QString::number(round));
+
+    printOnGameView("You selected: " + QString::number(userDiffer.first) + ". And used : " + skills[userDiffer.second]);
+    printOnGameView("Computer selected: " + QString::number(oppositeDiffer.first) + ". And used : " + skills[oppositeDiffer.second]);
+
+    qDebug() << "SelectedSkill: " << selectedSkills[0][0][1];
+
+    printOnGameView("You first hero has: " + QString::number(selectedSkills[0][0][0]) + skills[0] + QString::number(selectedSkills[0][0][1]) + skills[1] + QString::number(selectedSkills[0][0][2]) + skills[2]);
+    printOnGameView("You second hero has: " + QString::number(selectedSkills[0][1][0]) + skills[0] + QString::number(selectedSkills[0][1][2]) + skills[1] + QString::number(selectedSkills[0][1][2]) + skills[2]);
+    printOnGameView("You third hero has: " + QString::number(selectedSkills[0][2][0]) + skills[0] + QString::number(selectedSkills[0][2][1]) + skills[1] + QString::number(selectedSkills[0][2][2]) + skills[2]);
+
+    if (result == 1) {
+        printOnGameView("You win!");
+        round++; win++;
+    } else if (result == 0) {
+        printOnGameView("Draw!");
+        round++; draw++;
+    } else if (result == -1) {
+        printOnGameView("You lose!");
+        round++; lose++;
+    } else if (result == -10) {
+        printOnGameView("You have no skills left.");
+    }
+    printOnGameView("");
+}
+
+QPair<int, int> GameWindow::differ(QVector<QVector<int> > prev, QVector<QVector<int> > after) {
+    if (prev.size() != after.size()) {
+        return QPair<int, int>(-1, -1);
+    }
+
+    for (int i = 0; i < prev.size(); ++i) {
+        const QVector<int>& prevVec = prev[i];
+        const QVector<int>& afterVec = after[i];
+
+        // Check if inner QVector sizes are equal
+        if (prevVec.size() != afterVec.size()) {
+            return QPair<int, int>(-1, -1); // Return invalid pair if sizes differ
+        }
+
+        // Compare elements in the inner QVectors
+        for (int j = 0; j < prevVec.size(); ++j) {
+            if (prevVec[j] != afterVec[j]) {
+                return QPair<int, int>(i, j); // Return the indices of the first difference found
+            }
+        }
+    }
+}
+
+

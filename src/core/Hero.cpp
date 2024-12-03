@@ -28,15 +28,16 @@ QVector<Hero::Attributes> Hero::showHeroes() {
 }
 
 QVector<int> Hero::oppositeRandomSelectedHeroes() {
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::mt19937 generator(seed);
+    std::random_device rd;
+    std::mt19937 generator(rd());
     std::uniform_int_distribution<int> distribution(0, 14);
 
     QVector<int> oppositeRandomHeroes(15, 0); // Track chosen heroes
 
     for (int i = 0; i < 3; i++) {
         int index = distribution(generator); // Randomly select a hero index
-        while (oppositeRandomHeroes[index]) { // If already chosen, pick another
+        while (oppositeRandomHeroes[index]) {
+            // If already chosen, pick another
             index = distribution(generator);
         }
         oppositeRandomHeroes[index] = 1; // Mark hero as chosen

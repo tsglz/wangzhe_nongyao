@@ -23,6 +23,7 @@ public:
     QVector<int> oppositeRandomSelectedHeroes();
 
     ~Hero();
+
 private:
     QVector<Attributes> heroList;
 };
