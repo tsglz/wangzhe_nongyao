@@ -7,7 +7,6 @@
 #include "core/Game.h"
 #include <QTimer>
 #include <random>
-
 class PrepareWindow;
 
 namespace Ui {

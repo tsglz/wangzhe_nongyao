@@ -6,12 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>527</width>
-    <height>556</height>
+    <width>252</width>
+    <height>372</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>252</width>
+    <height>372</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>252</width>
+    <height>372</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/res/images/OIP-C (1).jpg);</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
@@ -30,20 +45,37 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Register New User</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QWidget" name="widget_2" native="true">
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
+          <widget class="QLabel" name="label">
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+font-family:'Microsoft YaHei';
+font-size:35px;
+font weight:bold;
+color:black;
+border:none;
+}</string>
+           </property>
+           <property name="text">
+            <string>Register </string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QLabel" name="label_2">
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+font-family:'Microsoft YaHei';
+font weight:bold;
+color:black;
+border:none;
+}</string>
+           </property>
            <property name="text">
             <string>Username</string>
            </property>
@@ -54,6 +86,14 @@
          </item>
          <item>
           <widget class="QLabel" name="label_3">
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+font-family:'Microsoft YaHei';
+font weight:bold;
+color:black;
+border:none;
+}</string>
+           </property>
            <property name="text">
             <string>Password</string>
            </property>
@@ -64,6 +104,25 @@
          </item>
          <item>
           <widget class="QPushButton" name="Register">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+background-color: rgb(0, 150, 0);
+color: rgb(255, 255, 255);
+color:  #0000ff;                    /* 文字颜色 */
+background-color: #473C8B;       /* 背景色 */
+border-style: outset;            /* 边框风格 */
+border-width: 2px;               /* 边框宽度 */
+border-radius: 5px;              /* 边框圆角 */
+border-color: #0000ff;           /* 边框颜色 */
+font: bold 14px;                 /* 字体 */
+min-width: 2em;                  /* 控件最小宽度 */
+min-height: 2px;                 /* 控件最小高度 */
+font-family: 华文新魏;            /* 字库 */
+padding: 5px;                    /* 内边距 */
+padding-left:6px;                /* 文字横向偏移 */
+padding-top:6px;                 /* 文字纵向偏移 */
+}</string>
+           </property>
            <property name="text">
             <string>Register</string>
            </property>
@@ -72,7 +131,7 @@
          <item>
           <spacer name="verticalSpacer">
            <property name="orientation">
-            <enum>Qt::Orientation::Vertical</enum>
+            <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -83,6 +142,12 @@
           </spacer>
          </item>
         </layout>
+        <zorder>label_2</zorder>
+        <zorder>username</zorder>
+        <zorder>label_3</zorder>
+        <zorder>password</zorder>
+        <zorder>label</zorder>
+        <zorder>Register</zorder>
        </widget>
       </item>
      </layout>

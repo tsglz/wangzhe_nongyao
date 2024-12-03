@@ -6,9 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>377</height>
+    <width>451</width>
+    <height>451</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>451</width>
+    <height>451</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>451</width>
+    <height>451</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>451</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -16,10 +34,10 @@
   <widget class="QListView" name="gameView">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>40</y>
-     <width>256</width>
-     <height>192</height>
+     <x>90</x>
+     <y>70</y>
+     <width>251</width>
+     <height>201</height>
     </rect>
    </property>
   </widget>
@@ -27,7 +45,7 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>260</y>
+     <y>290</y>
      <width>113</width>
      <height>21</height>
     </rect>
@@ -36,11 +54,42 @@
   <widget class="QPushButton" name="comfirm">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>260</y>
+     <x>240</x>
+     <y>280</y>
      <width>100</width>
      <height>32</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+QPushButton
+{
+	background-color: rgb(101, 86, 200);
+	border-style: outset;
+	border-width: 2px;
+	border-radius:5px; /*边界圆滑*/
+	border-color: #8B7355;
+	font: bold 14px;
+	min-width:2em;
+	color:white; /*字体颜色*/
+	font-family:华文新魏;
+	padding: 5px;
+}
+ 
+QPushButton:hover
+{
+	background-color: rgb(0, 150, 0);
+}
+ 
+QPushButton:pressed
+{
+	background-color: #1E90FF; /*伪状态经过时背景色*/ 
+	border-style: inset;
+}
+QPushButton:!enabled{
+	background-color: rgb(100, 100, 100);
+	border-style: inset;
+}</string>
    </property>
    <property name="text">
     <string>Comfirm</string>
@@ -49,11 +98,41 @@
   <widget class="QPushButton" name="return_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>0</y>
+     <x>330</x>
+     <y>380</y>
      <width>100</width>
      <height>32</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+	background-color: rgb(235, 189, 229);
+	border-style: outset;
+	border-width: 2px;
+	border-radius:5px; /*边界圆滑*/
+	border-color: #8B7355;
+	font: bold 14px;
+	min-width:2em;
+	color:white; /*字体颜色*/
+	font-family:华文新魏;
+	padding: 5px;
+}
+ 
+QPushButton:hover
+{
+	background-color: rgb(0, 150, 0);
+}
+ 
+QPushButton:pressed
+{
+	background-color: #1E90FF; /*伪状态经过时背景色*/ 
+	border-style: inset;
+}
+QPushButton:!enabled{
+	background-color: rgb(100, 100, 100);
+	border-style: inset;
+}</string>
    </property>
    <property name="text">
     <string>Return</string>
@@ -62,11 +141,43 @@
   <widget class="QPushButton" name="hero_0">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>310</y>
+     <x>30</x>
+     <y>330</y>
      <width>100</width>
      <height>32</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+	background-color: rgb(249, 240, 175);
+	border-style: outset;
+	border-width: 2px;
+	border-radius:5px; /*边界圆滑*/
+	border-color: #8B7355;
+	font: bold 14px;
+	min-width:2em;
+	color:black; /*字体颜色*/
+	font-family:华文新魏;
+	padding: 5px;
+}
+ 
+QPushButton:hover
+{
+	background-color: rgb(0, 150, 0);
+}
+ 
+QPushButton:pressed
+{
+	
+	background-color: rgb(238, 191, 224);
+	border-style: inset;
+}
+QPushButton:!enabled{
+	
+	background-color: rgb(238, 191, 224);
+	border-style: inset;
+}</string>
    </property>
    <property name="text">
     <string>0</string>
@@ -75,11 +186,41 @@
   <widget class="QPushButton" name="hero_1">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>310</y>
+     <x>160</x>
+     <y>330</y>
      <width>100</width>
      <height>32</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+	background-color: rgb(249, 240, 175);
+	border-style: outset;
+	border-width: 2px;
+	border-radius:5px; /*边界圆滑*/
+	border-color: #8B7355;
+	font: bold 14px;
+	min-width:2em;
+	color:black; /*字体颜色*/
+	font-family:华文新魏;
+	padding: 5px;
+}
+ 
+QPushButton:hover
+{
+	background-color: rgb(0, 150, 0);
+}
+ 
+QPushButton:pressed
+{
+	background-color: #ffff7f; /*伪状态经过时背景色*/ 
+	border-style: inset;
+}
+QPushButton:!enabled{
+	background-color: #f8dcff;
+	border-style: inset;
+}</string>
    </property>
    <property name="text">
     <string>1</string>
@@ -88,16 +229,118 @@
   <widget class="QPushButton" name="hero_2">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>310</y>
+     <x>290</x>
+     <y>330</y>
      <width>100</width>
      <height>32</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+	background-color: rgb(249, 240, 175);
+	border-style: outset;
+	border-width: 2px;
+	border-radius:5px; /*边界圆滑*/
+	border-color: #8B7355;
+	font: bold 14px;
+	min-width:2em;
+	color:black; /*字体颜色*/
+	font-family:华文新魏;
+	padding: 5px;
+}
+ 
+QPushButton:hover
+{
+	background-color: rgb(0, 150, 0);
+}
+ 
+QPushButton:pressed
+{
+	background-color: #ffff7f; /*伪状态经过时背景色*/ 
+	border-style: inset;
+}
+QPushButton:!enabled{
+	background-color: #f8dcff;
+	border-style: inset;
+}</string>
    </property>
    <property name="text">
     <string>2</string>
    </property>
   </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>0</y>
+     <width>331</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/images/x5p50Umnpb(20241202-185758).jpg);</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>-10</y>
+     <width>451</width>
+     <height>451</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>451</width>
+     <height>451</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>451</width>
+     <height>451</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>170</y>
+     <width>91</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">image: url(:/res/images/IMG_4783.JPG);</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_2" native="true">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>140</y>
+     <width>91</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">image: url(:/res/images/IMG_4784.JPG);</string>
+   </property>
+  </widget>
+  <zorder>listView_2</zorder>
+  <zorder>input</zorder>
+  <zorder>comfirm</zorder>
+  <zorder>return_2</zorder>
+  <zorder>hero_0</zorder>
+  <zorder>hero_1</zorder>
+  <zorder>hero_2</zorder>
+  <zorder>listView</zorder>
+  <zorder>widget</zorder>
+  <zorder>widget_2</zorder>
+  <zorder>gameView</zorder>
  </widget>
  <resources/>
  <connections/>

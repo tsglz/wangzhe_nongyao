@@ -136,7 +136,6 @@ void GameWindow::on_hero_2_clicked()
 
 void GameWindow::playGame(QPair<int, int> heroSelected) {
     timer->start(5000);
-
     if (selectedHeroCount < 3) {
         printOnGameView("You have not selected three heroes.");
         return;
